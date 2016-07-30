@@ -3,14 +3,80 @@
 <head>
   <title>Dropbox JavaScript SDK</title>
   <script src="temp.Dropbox-sdk.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.0/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.0/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
 </head>
 <body>
-<audio id="myaudio" controls>
-</audio>
-  <script>
+<div id="content"></div>
+<script type="text/babel">
+
+class DropboxFileList extends React.Component {
+  render() {
+    return (
+      <div />
+    );
+  }
+}
+
+class Audio extends React.Component {
+  render() {
+    return (
+      <audio id="myaudio" controls>
+        <source src={this.props.data} />
+      </audio>
+    );
+  }
+}
+
+// TODO: namespacing???
+class DropboxAudioStatus extends React.Component {
+  render() {
+    return (
+      <div>Status: {this.props.status}</div>
+    );
+  }
+}
+
+class DropboxAudio extends React.Component {
+  play(path) { // TODO: better way to do this with props?
+  }
+  constructor(props) {
+    super(props);
+    this.dropbox = new Dropbox({ accessToken: props.accessToken });
+    this.state = { status: 'initial' };
+  }
+  render() {
+    return (
+      <div>
+        <DropboxAudioStatus status={this.state.status} />
+        <Audio data={this.state.data} />
+      </div>
+    );
+  }
+}
+
+const App = React.createClass({
+  render() {
+    return (
+      <div>
+        <DropboxFileList accessToken={this.props.accessToken}/>
+        <DropboxAudio accessToken={this.props.accessToken}/>
+      </div>
+    );
+  },
+});
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('content')
+);
+
+</script>
+  <script type="text/javascript">
 function doit(token) {
-   
     var dbx = new Dropbox({ accessToken: token });
     console.log("starting download...");
     dbx.filesDownload({path: '/t2.mp3'})
@@ -31,6 +97,7 @@ function doit(token) {
         console.log(error);
       });
 }
+/**
 $.ajax({
     url: 'authtoken.txt',
     type: 'GET',
@@ -39,6 +106,7 @@ $.ajax({
     success: token => { doit(token.trim()); },
     error: (xhr, stat, err) => console.log("error", stat, "--", err),
     });
+*/
 
   </script>
 </body>
