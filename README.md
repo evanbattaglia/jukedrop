@@ -1,10 +1,7 @@
 requires dropbox-sdk-js at evan/battaglia/download-hack
+(for now compiled included in this repo)
 
-https://github.com/evanbattaglia/dropbox-sdk-js/tree/evanbattaglia/download-hack
-
-clone repo, change branch, run `npm install` and `npm run build`
-
-then create an app & authtoken in dropbox and add it to authtoken.txt
+create an app & authtoken in dropbox and add it to authtoken.txt
 
 then serve up the files somewhere, e.g.
 
