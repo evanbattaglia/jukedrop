@@ -52,14 +52,13 @@ class DropboxAudio extends React.Component {
     this.props.dropbox.filesDownload({path})
     .then(response => {
       this.setStatus('converting');
-      const blob = new Blob([response], {type: 'audio/mpeg'}) // force content-type
+      const type = 'audio/mpeg'; // TOFIX when dropbox API improves
+      const blob = new Blob([response], {type}) // force content-type
       const reader = new window.FileReader();
       reader.readAsDataURL(blob);
-      //return new Promise(
-      // TODO: promisify
-      reader.onloadend = () => {
-        this.setState({ status: 'loaded', data: reader.result, type: 'audio/mpeg' });
-      };
+      return new Promise(resolve => reader.onloadend = () => resolve(reader.result, type));
+    }).then((data, type) => {
+      this.setState({status: 'loaded', data, type});
     })
     .catch(function(error) {
       this.setStatus('errored');
