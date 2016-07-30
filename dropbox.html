@@ -22,10 +22,13 @@ class DropboxFileList extends React.Component {
 }
 
 class Audio extends React.Component {
+  componentDidUpdate() {
+    this.refs.audio.load();
+  }
   render() {
     return (
-      <audio id="myaudio" controls>
-        <source src={this.props.data} />
+      <audio preload="none" ref="audio" controls>
+        <source src={this.props.data} type={this.props.type} />
       </audio>
     );
   }
@@ -41,73 +44,74 @@ class DropboxAudioStatus extends React.Component {
 }
 
 class DropboxAudio extends React.Component {
+  setStatus(status) {
+    this.setState({ status });
+  }
   play(path) { // TODO: better way to do this with props?
+    this.setStatus('downloading');
+    this.props.dropbox.filesDownload({path})
+    .then(response => {
+      this.setStatus('converting');
+      const blob = new Blob([response], {type: 'audio/mpeg'}) // force content-type
+      const reader = new window.FileReader();
+      reader.readAsDataURL(blob);
+      //return new Promise(
+      // TODO: promisify
+      reader.onloadend = () => {
+        this.setState({ status: 'loaded', data: reader.result, type: 'audio/mpeg' });
+      };
+    })
+    .catch(function(error) {
+      this.setStatus('errored');
+      console.log(error);
+    });
   }
   constructor(props) {
     super(props);
-    this.dropbox = new Dropbox({ accessToken: props.accessToken });
+    this.dropbox = props.dropbox;
     this.state = { status: 'initial' };
+  }
+  componentDidMount() {
+    this.play('/t2.mp3');
   }
   render() {
     return (
       <div>
-        <DropboxAudioStatus status={this.state.status} />
+        <DropboxAudioStatus status={this.state.status} type={this.state.type} />
         <Audio data={this.state.data} />
       </div>
     );
   }
 }
 
-const App = React.createClass({
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.dropbox = new Dropbox({ accessToken: this.props.accessToken }); // TOOD: should this be in state? or even props?
+  }
   render() {
     return (
       <div>
-        <DropboxFileList accessToken={this.props.accessToken}/>
-        <DropboxAudio accessToken={this.props.accessToken}/>
+        <DropboxFileList dropbox={this.dropbox} />
+        <DropboxAudio dropbox={this.dropbox} />
       </div>
     );
-  },
-});
-
-ReactDOM.render(
-  <App />,
-  document.getElementById('content')
-);
-
-</script>
-  <script type="text/javascript">
-function doit(token) {
-    var dbx = new Dropbox({ accessToken: token });
-    console.log("starting download...");
-    dbx.filesDownload({path: '/t2.mp3'})
-    //dbx.filesListFolder({path: ''})
-      .then(function(response, a, b) {
-          console.log("download finishing. converting to base64...");
-          blob = new Blob([response], {type: 'audio/mpeg'}) // force content-type
-          var reader = new window.FileReader();
-           reader.readAsDataURL(blob);
-           reader.onloadend = function() {
-           console.log("adding source element...");
-            var src = "<source id=\"mysource\" src=\"" + reader.result + "\">";
-            $("#myaudio").append(src);
-            console.log("done");
-          };
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  }
 }
-/**
+
 $.ajax({
     url: 'authtoken.txt',
     type: 'GET',
     dataType: 'text',
     async: 'false', // ???
-    success: token => { doit(token.trim()); },
+    success: token => {
+      ReactDOM.render(
+        <App accessToken={token.trim()} />,
+        document.getElementById('content')
+      );
+    },
     error: (xhr, stat, err) => console.log("error", stat, "--", err),
-    });
-*/
-
+});
   </script>
 </body>
 </html>
