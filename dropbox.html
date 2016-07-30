@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <title>Dropbox JavaScript SDK</title>
+  <script src="dropbox-sdk-js/dist/Dropbox-sdk.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+<audio id="myaudio" controls>
+</audio>
+  <script>
+function doit(token) {
+   
+    var dbx = new Dropbox({ accessToken: token });
+    console.log("starting download...");
+    dbx.filesDownload({path: '/t2.mp3'})
+    //dbx.filesListFolder({path: ''})
+      .then(function(response, a, b) {
+          console.log("download finishing. converting to base64...");
+          blob = new Blob([response], {type: 'audio/mpeg'}) // force content-type
+          var reader = new window.FileReader();
+           reader.readAsDataURL(blob);
+           reader.onloadend = function() {
+           console.log("adding source element...");
+            var src = "<source id=\"mysource\" src=\"" + reader.result + "\">";
+            $("#myaudio").append(src);
+            console.log("done");
+          };
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+}
+$.ajax({
+    url: 'authtoken.txt',
+    type: 'GET',
+    dataType: 'text',
+    async: 'false', // ???
+    success: token => { doit(token.trim()); },
+    error: (xhr, stat, err) => console.log("error", stat, "--", err),
+    });
+
+  </script>
+</body>
+</html>
