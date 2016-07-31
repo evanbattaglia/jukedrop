@@ -1,5 +1,7 @@
 - multiple playlists
 - continuous playing of playlists (eventually, with anticipated loading)
 - exporting of playlists (eventually, to Dropbox)
+- hierarchy of playlists, like I always wanted in a jukebox
+- set accesstoken on first load & store in localstorage, for stupid-simple setup
 - loading of directories for quick search
 - id3 tags? probably not... maybe just directory name in playlist (good for artists directory)

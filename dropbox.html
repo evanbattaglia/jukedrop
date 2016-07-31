@@ -1,8 +1,11 @@
 <!doctype html>
 <html>
 <head>
-  <title>Dropbox JavaScript SDK</title>
+  <title>Jukedrop</title>
+  <link rel="icon" href="favicon.ico" sizes="16x16" type="image/x-icon">
+
   <script src="temp.Dropbox-sdk.min.js"></script>
+  <script src="authtoken.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.0/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.0/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
@@ -403,19 +406,10 @@ class JukedropApp extends React.Component {
   }
 }
 
-$.ajax({
-    url: 'authtoken.txt',
-    type: 'GET',
-    dataType: 'text',
-    async: 'false', // ???
-    success: token => {
-      ReactDOM.render(
-        <JukedropApp accessToken={token.trim()} />,
-        document.getElementById('content')
-      );
-    },
-    error: (xhr, stat, err) => console.log("error", stat, "--", err),
-});
+ReactDOM.render(
+  <JukedropApp accessToken={JukedropAccessToken} />,
+  document.getElementById('content')
+);
   </script>
 </body>
 </html>
