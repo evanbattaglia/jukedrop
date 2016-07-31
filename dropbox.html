@@ -13,10 +13,45 @@
 <div id="content"></div>
 <script type="text/babel">
 
-class DropboxFileList extends React.Component {
+class DropboxFile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.props.onClick(this.props.name);
+  }
+
   render() {
     return (
-      <div />
+      <div className="dropboxFile">
+        <a href="" onClick={this.handleClick}>{this.props.name}</a>
+      </div>
+    );
+  }
+}
+
+class DropboxFileList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {currentDirectory: '/', files: [ 'abc', '123' ]};
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick(filename) {
+    const path = this.state.currentDirectory + filename;
+    console.log("click on ", path);
+  }
+  render() {
+    return (
+      <div className="dropboxFileList">
+        {
+          this.state.files.map(file =>
+            <DropboxFile onClick={this.handleClick} name={file} key={file} />
+          )
+        }
+      </div>
     );
   }
 }
