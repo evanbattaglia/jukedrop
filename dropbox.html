@@ -290,19 +290,30 @@ class DropboxAudio extends React.Component {
 class PlaylistItem extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickPlay = this.handleClickPlay.bind(this);
+    this.handleClickRemove = this.handleClickRemove.bind(this);
   }
 
-  handleClick() {
-    this.props.onClick(this.props.path);
+  handleClickPlay(e) {
+    e.preventDefault();
+    this.props.onPlay(this.props.path);
+  }
+
+  handleClickRemove(e) {
+    e.preventDefault();
+    this.props.onRemove(this.props.path);
   }
 
   render() {
     return (
       <div>
-        <a href="#" onClick={this.handleClick}>
+        <a href="#" onClick={this.handleClickPlay}>
           {this.props.path.replace(/^.*\//, '')}
         </a>
+        <a href="#" onClick={this.handleClickRemove}>
+          (remove)
+        </a>
+
       </div>
     );
   }
@@ -312,6 +323,7 @@ class Playlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = { paths: [] };
+    this.removePath = this.removePath.bind(this);
   }
   addPath(path) {
     // Don't add same path twice
@@ -319,13 +331,21 @@ class Playlist extends React.Component {
     this.state.paths.push(path);
     this.setState(this.state); // TODO: seems to work but not sure it's OK
   }
+  removePath(path) {
+    this.setState({ paths: this.state.paths.filter(p => p !== path) });
+  }
   render() {
     return (
       <div className="playlist">
         <h2>Playlist</h2>
         {
           this.state.paths.map(path =>
-            <PlaylistItem key={path} path={path} onClick={this.props.onChooseFile} />
+            <PlaylistItem
+              key={path}
+              path={path}
+              onPlay={this.props.onChooseFile}
+              onRemove={this.removePath}
+            />
           )
         }
       </div>
