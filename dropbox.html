@@ -9,7 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
 <style type="text/css">
-.jukedropApp {
+.jukedropAppTop {
   display: flex;
 }
 
@@ -19,6 +19,8 @@
 
 .dropboxFileList {
   flex-grow: 1;
+  height: 600px;
+  overflow-y: scroll;
 }
 
 .iconFolder {
@@ -129,11 +131,20 @@ class DropboxBaseFile extends React.Component {
 }
 
 class DropboxFile extends DropboxBaseFile {
+  constructor(props) {
+    super(props);
+    this.handleClickAdd = this.handleClickAdd.bind(this);
+  }
+  handleClickAdd(e) {
+    e.preventDefault();
+    this.props.onClickAdd(this.props.name);
+  }
   render() {
     return (
       <div className="dropboxFile">
         <div className={ this.props.name.match(/\.mp3$/) ? 'iconMusic' : 'iconFile' } />
-        <a href="" onClick={this.handleClick}>{this.props.name}</a>
+        <a href="#" onClick={this.handleClick}>{this.props.name}</a>
+        <a href="#" onClick={this.handleClickAdd}>(add)</a>
       </div>
     );
   }
@@ -143,7 +154,8 @@ class DropboxFolder extends DropboxBaseFile {
   render() {
     return (
       <div className="dropboxFolder">
-        <div className="iconFolder" /> <a href="" onClick={this.handleClick}>{this.props.name}</a>
+        <div className="iconFolder" />
+        <a href="" onClick={this.handleClick}>{this.props.name}</a>
       </div>
     );
   }
@@ -156,6 +168,7 @@ class DropboxFileList extends React.Component {
     this.state = { files: []};
     this.handleClickFolder = this.handleClickFolder.bind(this);
     this.handleClickFile = this.handleClickFile.bind(this);
+    this.handleClickAddFile = this.handleClickAddFile.bind(this);
     this.renderFile = this.renderFile.bind(this);
   }
   handleClickFolder(name) {
@@ -164,6 +177,10 @@ class DropboxFileList extends React.Component {
     } else {
       this.loadDirectoryFromDropbox(this.state.currentDirectory + '/' + name);
     }
+  }
+  handleClickAddFile(filename) {
+    const path = this.state.currentDirectory + '/' + filename;
+    this.props.onAddFile(path);
   }
   handleClickFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
@@ -193,14 +210,14 @@ class DropboxFileList extends React.Component {
     if (file.type === 'folder') {
       return <DropboxFolder onClick={this.handleClickFolder} name={file.name} key={file.name} />
     } else {
-      return <DropboxFile onClick={this.handleClickFile} name={file.name} key={file.name} />
+      return <DropboxFile onClick={this.handleClickFile} onClickAdd={this.handleClickAddFile} name={file.name} key={file.name} />
     }
   }
   render() {
     // TODO: add a status
     return (
       <div className="dropboxFileList">
-        <div>{ this.state.currentDirectory }</div>
+        <h2>{ this.state.currentDirectory }</h2>
         { this.state.files.map(this.renderFile) }
       </div>
     );
@@ -270,20 +287,79 @@ class DropboxAudio extends React.Component {
   }
 }
 
+class PlaylistItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.props.onClick(this.props.path);
+  }
+
+  render() {
+    return (
+      <div>
+        <a href="#" onClick={this.handleClick}>
+          {this.props.path.replace(/^.*\//, '')}
+        </a>
+      </div>
+    );
+  }
+}
+
+class Playlist extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { paths: [] };
+  }
+  addPath(path) {
+    // Don't add same path twice
+    if (~this.state.paths.indexOf(path)) return;
+    this.state.paths.push(path);
+    this.setState(this.state); // TODO: seems to work but not sure it's OK
+  }
+  render() {
+    return (
+      <div className="playlist">
+        <h2>Playlist</h2>
+        {
+          this.state.paths.map(path =>
+            <PlaylistItem key={path} path={path} onClick={this.props.onChooseFile} />
+          )
+        }
+      </div>
+    );
+  }
+}
+
 class JukedropApp extends React.Component {
   constructor(props) {
     super(props);
     this.dropbox = new Dropbox({ accessToken: this.props.accessToken }); // TOOD: should this be in state? or even props?
     this.handleChooseFile = this.handleChooseFile.bind(this);
+    this.handleAddFile = this.handleAddFile.bind(this);
   }
+
   handleChooseFile(path) {
+    console.log("playing ", path);
     this.refs.dropboxAudio.play(path);
   }
+
+  // handle add file to playlist
+  handleAddFile(path) {
+  // TODO need to first check if in list. maybe further down in playlist, i think that should probably be responsible...
+    this.refs.playlist.addPath(path);
+  }
+
   render() {
     return (
       <div className="jukedropApp">
-        <DropboxFileList onChooseFile={this.handleChooseFile} homeDirectory="/android" dropbox={this.dropbox} />
-        <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
+        <div className="jukedropAppTop">
+          <DropboxFileList onChooseFile={this.handleChooseFile} onAddFile={this.handleAddFile} homeDirectory="/android" dropbox={this.dropbox} />
+          <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
+        </div>
+        <Playlist ref="playlist" onChooseFile={this.handleChooseFile} />
       </div>
     );
   }
