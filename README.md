@@ -1,8 +1,9 @@
-requires dropbox-sdk-js at evan/battaglia/download-hack
-(for now compiled included in this repo)
+# Requirements
+- Nothing but a web browser.
+- Requires dropbox-sdk-js at evan/battaglia/download-hack, but this is, for now, compiled and included in this repo, so you don't have to worry about it.
 
-create an app & authtoken in dropbox and add it to authtoken.txt
-
-then serve up the files somewhere, e.g.
-
-```python -m SimpleHTTPServer 8000 & google-chrome localhost:8000/dropbox.html```
+# Setup
+It's easy as 1-2-3.
+1. create an app & authtoken in dropbox.
+2. copy authtoken.js.example to authtoken.js and add in your authtoken.
+3. then just go open index.html in a web browser
