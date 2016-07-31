@@ -199,20 +199,16 @@ class PlaylistItem extends React.Component {
   }
 
   handleClickRemove(e) {
-    e.preventDefault();
     this.props.onRemove(this.props.path);
   }
 
   render() {
     return (
       <div>
-        <a href="#" onClick={this.handleClickPlay}>
+        <div className="iconRemove playlistItemRemove" onClick={this.handleClickRemove}></div>
+        <a href="#" onClick={this.handleClickPlay} title={this.props.path}>
           {this.props.path.replace(/^.*\//, '')}
         </a>
-        <a href="#" onClick={this.handleClickRemove}>
-          (remove)
-        </a>
-
       </div>
     );
   }
