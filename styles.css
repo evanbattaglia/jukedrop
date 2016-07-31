@@ -1,0 +1,108 @@
+.jukedropAppTop {
+  display: flex;
+}
+
+.dropboxAudio {
+  width: 450px;
+}
+
+.dropboxAudio audio {
+  width: 450px;
+}
+
+.dropboxFileList {
+  flex-grow: 1;
+  height: 600px;
+  overflow-y: scroll;
+}
+
+.iconFolder {
+width: 25px;
+height: 17px;
+margin: 0 auto;
+position: relative;
+background-color: #708090;
+border-radius: 0 1px 1px 1px;
+box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.59);
+margin:8px 5px 8px 5px;
+
+display:inline-block;
+vertical-align:middle;
+position:relative;
+font-style:normal;
+text-align:left;
+text-indent:-9999px;
+direction:ltr
+}
+
+.iconFolder:before {
+content: '';
+width: 50%;
+height: 4px;
+border-radius: 0 6px 0 0;
+background-color: #708090;
+position: absolute;
+top: -4px;
+left: 0px;
+}
+
+.iconMusic
+{
+width:18px;
+height:6px;
+-webkit-transform:skewY(-15deg);
+-ms-transform:skewY(-15deg);
+transform:skewY(-15deg);
+box-shadow:inset 0 0 0 32px;
+border-radius:2px 2px 0 0;
+margin:4px 5px 24px 11px;
+
+display:inline-block;
+vertical-align:middle;
+position:relative;
+font-style:normal;
+text-align:left;
+text-indent:-9999px;
+direction:ltr
+box-sizing:border-box
+}
+.iconMusic:before
+{
+position:absolute;
+width:2px;
+height:16px;
+left:0;
+top:4px;
+box-shadow:inset 0 0 0 32px,16px 0 0 0
+}
+.iconMusic:after
+{
+position:absolute;
+width:10px;
+height:8px;
+left:-8px;
+top:17px;
+border-radius:50%;
+box-shadow:inset 0 0 0 32px,16px 0 0 0
+}
+
+.iconMusic:after,.iconMusic:before
+{
+content:'';pointer-events:none
+}
+
+.iconFile
+{
+color: #aaa;
+display:inline-block;vertical-align:middle;position:relative;font-style:normal;text-align:left;text-indent:-9999px;direction:ltr;
+border:2px solid;
+box-sizing:border-box;
+width:26px;height:32px;border-radius:0 12px 0 0;margin:1px 4px
+}
+.iconFile:before
+{
+position:absolute;top:-2px;right:-2px;border-style:solid;width:0;height:0;border-width:5px;border-top-color:transparent;border-right-color:transparent;
+content:'';pointer-events:none
+}
+
+

@@ -6,4 +6,4 @@
 It's easy as 1-2-3.
 1. create an app & authtoken in dropbox.
 2. copy authtoken.js.example to authtoken.js and add in your authtoken.
-3. then just go open index.html in a web browser
+3. then just go open index.html in a web browser (Chrome recommended)
