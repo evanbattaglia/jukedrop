@@ -13,7 +13,7 @@ export default {
   },
 
   /**
-   *
+   * @param {string} path
    */
   removeFromPlaylist(path) {
     Dispatcher.dispatch({

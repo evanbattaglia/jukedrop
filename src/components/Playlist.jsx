@@ -32,7 +32,6 @@ class Playlist extends React.Component {
             <PlaylistItem
               key={path}
               path={path}
-              onPlay={this.props.onChooseFile}
             />
           )
         }

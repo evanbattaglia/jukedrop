@@ -1,5 +1,6 @@
 import React from 'react';
 import PlaylistActions from '../actions/PlaylistActions';
+import AudioActions from '../actions/AudioActions';
 
 class PlaylistItem extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class PlaylistItem extends React.Component {
 
   handleClickPlay(e) {
     e.preventDefault();
-    this.props.onPlay(this.props.path);
+    AudioActions.play(this.props.path);
   }
 
   handleClickRemove(e) {
