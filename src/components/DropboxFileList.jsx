@@ -1,6 +1,8 @@
 import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
+import ActionConstants from '../constants/ActionConstants';
+import Dispatcher from '../Dispatcher';
 
 
 // TODO: reqd props onChooseFile, dropbox
@@ -22,7 +24,8 @@ class DropboxFileList extends React.Component {
   }
   handleClickAddFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
-    this.props.onAddFile(path);
+    console.log('dispatching');
+    Dispatcher.dispatch({ actionType: ActionConstants.PLAYLIST_ADD_ITEM, path: path });
   }
   handleClickFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
