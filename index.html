@@ -188,7 +188,7 @@ class DropboxAudio extends React.Component {
   }
 }
 
-class PlaylistItem extends React.Component {
+class UniqueStringListItem extends React.Component {
   constructor(props) {
     super(props);
     this.handleClickPlay = this.handleClickPlay.bind(this);
@@ -197,19 +197,19 @@ class PlaylistItem extends React.Component {
 
   handleClickPlay(e) {
     e.preventDefault();
-    this.props.onPlay(this.props.path);
+    this.props.onPlay(this.props.item);
   }
 
   handleClickRemove(e) {
-    this.props.onRemove(this.props.path);
+    this.props.onRemove(this.props.item);
   }
 
   render() {
     return (
       <div>
         <div className="iconRemove playlistItemRemove" onClick={this.handleClickRemove}></div>
-        <a href="#" onClick={this.handleClickPlay} title={this.props.path}>
-          {this.props.path.replace(/^.*\//, '')}
+        <a href="#" onClick={this.handleClickPlay} title={this.props.item}>
+          {this.props.item.replace(/^.*\//, '')}
         </a>
       </div>
     );
@@ -220,70 +220,119 @@ class Playlists extends React.Component {
   constructor(props) {
     super(props);
     this.handlePlaylistChange = this.handlePlaylistChange.bind(this);
+    this.handlePlaylistListChange = this.handlePlaylistListChange.bind(this);
+    this.handleChoosePlaylist = this.handleChoosePlaylist.bind(this);
+    this.state = { currentPlaylist: '', playlistItems: [], playlists: [] }
   }
 
   addPath(path) {
-    this.refs.playlist.addPath(path);
+    this.refs.playlist.addItem(path);
+  }
+
+  handlePlaylistListChange(listNames) {
+    localStorage.setItem('jukedrop-playlists', JSON.stringify(listNames));
+    this.setState({ playlists: listNames });
+    // TODO IMPORTANT: delete playlists from localstorage that no longer exist.
+    // TODO IMPORTANT: if current playlist, change to no list
+  }
+
+  handleChoosePlaylist(playlist) {
+    // sets playlist.
+    console.log("start setting state");
+    const loadedPlaylist = localStorage.getItem('jukedrop-playlist-' + playlist);
+    const initialItems = JSON.parse(loadedPlaylist || '[]'); //TODO: might be doing this all wrong
+    this.setState({ currentPlaylist: playlist, playlistItems: initialItems });
   }
 
   handlePlaylistChange(paths) {
     // TODO: move storage to own class, eventually (will be responsible for holding many playlist).
     // at the very least set this string to a constant. TODO: figure out how to do class constants (and/or split up into files)
-    localStorage.setItem('jukedrop-playlist', JSON.stringify(paths));
+    if (this.state.currentPlaylist) {
+      this.setState({ playlistItems: paths });
+      console.log("saving", this.state.currentPlaylist);
+      localStorage.setItem('jukedrop-playlist-' + this.state.currentPlaylist, JSON.stringify(paths));
+    }
   }
 
   componentDidMount() {
-    const loadedPlaylist = localStorage.getItem('jukedrop-playlist');
-    if (loadedPlaylist) {
-      this.refs.playlist.setPaths( JSON.parse(loadedPlaylist) );
+    const loadedPlaylists = localStorage.getItem('jukedrop-playlists');
+    if (loadedPlaylists) {
+      this.refs.playlistList.setItems( JSON.parse(loadedPlaylists) );
     }
   }
 
   render() {
     return (
-      <Playlist ref="playlist" onChanged={this.handlePlaylistChange} onChooseFile={this.props.onChooseFile} />
+      <div>
+        <AddableUniqueStringList ref="playlistList" title="All Playlists" items={this.state.playlists} onChanged={this.handlePlaylistListChange} onChoose={this.handleChoosePlaylist} />
+        <UniqueStringList ref="playlist" items={this.state.playlistItems} title={this.state.currentPlaylist} onChanged={this.handlePlaylistChange} onChoose={this.props.onChooseFile} />
+      </div>
     );
   }
 }
 
-class Playlist extends React.Component {
+// TODO: maybe this shouldn't have state?
+class UniqueStringList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { paths: [] };
-    this.removePath = this.removePath.bind(this);
+    this.state = { items: [] };
+    this.removeItem = this.removeItem.bind(this);
   }
   setState(state) {
-    if (state.paths) {
-      this.props.onChanged(state.paths);
+    if (state.items) {
+      this.props.onChanged(state.items);
     }
     super.setState(state);
   }
-  setPaths(paths) {
-    this.setState({ paths });
+  setItems(items) {
+    this.setState({ items });
   }
-  addPath(path) {
-    // Don't add same path twice
-    if (~this.state.paths.indexOf(path)) return;
-    this.state.paths.push(path);
-    this.setState(this.state); // TODO: seems to work but not sure it's OK
+  addItem(item) {
+    // Don't add same item twice
+    if (~this.state.items.indexOf(item)) return;
+    this.props.onChanged(this.props.items.concat([item]));
   }
-  removePath(path) {
-    this.setState({ paths: this.state.paths.filter(p => p !== path) });
+  removeItem(item) {
+    this.props.onChanged(this.props.items.filter(i => i !== item));
   }
   render() {
     return (
       <div className="playlist">
-        <h2>Playlist</h2>
+        <h2>{this.props.title}</h2>
         {
-          this.state.paths.map(path =>
-            <PlaylistItem
-              key={path}
-              path={path}
-              onPlay={this.props.onChooseFile}
-              onRemove={this.removePath}
+          this.props.items.map(item =>
+            <UniqueStringListItem
+              key={item}
+              item={item}
+              onPlay={this.props.onChoose}
+              onRemove={this.removeItem}
             />
           )
         }
+      </div>
+    );
+  }
+}
+
+// TODO: this isn't really a good solution.
+class AddableUniqueStringList extends UniqueStringList {
+  constructor(props) {
+    super(props);
+    this.handleClickAdd = this.handleClickAdd.bind(this);
+  }
+
+  handleClickAdd(e) {
+    e.preventDefault();
+    const item = prompt("Add");
+    console.log("adding", item);
+    this.addItem(item);
+  }
+
+  render() {
+    return (
+      <div>
+        <a href="#" onClick={this.handleClickAdd}>Add</a>
+        {super.render()}
       </div>
     );
   }

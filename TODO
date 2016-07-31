@@ -1,4 +1,4 @@
-- multiple playlists
+- multiple playlists -- TODO IMPORTANT, make prety, maybe refactor/redo
 - continuous playing of playlists (eventually, with anticipated loading)
 - exporting of playlists (eventually, to Dropbox)
 - separate jsx files compiled into one index.html (for use on local filesystem file:/// URL)
