@@ -1,10 +1,32 @@
 import React from 'react';
 import Audio from './Audio.jsx';
 
+import Dispatcher from '../Dispatcher';
+import ActionConstants from '../constants/ActionConstants';
+
 class DropboxAudio extends React.Component {
+  constructor(props) {
+    super(props);
+    this.dropbox = props.dropbox;
+    this.state = { status: 'initial', path: '' };
+  }
+
+  componentDidMount() {
+    // TODO TODOFLUX Fluxize? at least Dropbox stuff should go in a source...
+    // probably move this to store
+    // maybe the current file name and status would be the state (store).
+    // store could also be concerned with not playing until another has started, etc.
+    Dispatcher.register(payload => {
+      if (payload.actionType === ActionConstants.AUDIO_PLAY) {
+        this.play(payload.path);
+      }
+    });
+  }
+
   setStatus(status) {
     this.setState({ status });
   }
+
   play(path) { // TODO: better way to do this with props?
     this.setStatus('downloading');
     this.props.dropbox.filesDownload({path})
@@ -23,11 +45,7 @@ class DropboxAudio extends React.Component {
       console.log(error);
     });
   }
-  constructor(props) {
-    super(props);
-    this.dropbox = props.dropbox;
-    this.state = { status: 'initial', path: '' };
-  }
+
   render() {
     return (
       <div className="dropboxAudio">

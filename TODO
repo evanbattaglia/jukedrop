@@ -1,3 +1,6 @@
+- Flux -- add DidUnmount -> removeEventListener
+- fluxize more -- DropboxFile stuff, Audio. but simple enough for now.
+  (when we get to stopping, continuous loading, etc., it will probably require more)
 - multiple playlists
 - continuous playing of playlists (eventually, with anticipated loading)
 - exporting of playlists (eventually, to Dropbox)
