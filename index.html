@@ -216,25 +216,50 @@ class PlaylistItem extends React.Component {
   }
 }
 
+class Playlists extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePlaylistChange = this.handlePlaylistChange.bind(this);
+  }
+
+  addPath(path) {
+    this.refs.playlist.addPath(path);
+  }
+
+  handlePlaylistChange(paths) {
+    // TODO: move storage to own class, eventually (will be responsible for holding many playlist).
+    // at the very least set this string to a constant. TODO: figure out how to do class constants (and/or split up into files)
+    localStorage.setItem('jukedrop-playlist', JSON.stringify(paths));
+  }
+
+  componentDidMount() {
+    const loadedPlaylist = localStorage.getItem('jukedrop-playlist');
+    if (loadedPlaylist) {
+      this.refs.playlist.setPaths( JSON.parse(loadedPlaylist) );
+    }
+  }
+
+  render() {
+    return (
+      <Playlist ref="playlist" onChanged={this.handlePlaylistChange} onChooseFile={this.props.onChooseFile} />
+    );
+  }
+}
+
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = { paths: [] };
     this.removePath = this.removePath.bind(this);
   }
-  setState(props) {
-    if (props.paths) {
-      // TODO: move storage to own class, eventually (will be responsible for holding many playlist).
-      // at the very least set this string to a constant. TODO: figure out how to do class constants (and/or split up into files)
-      localStorage.setItem('jukedrop-playlist', JSON.stringify(props.paths));
+  setState(state) {
+    if (state.paths) {
+      this.props.onChanged(state.paths);
     }
-    super.setState(props);
+    super.setState(state);
   }
-  componentDidMount() {
-    const loadedPlaylist = localStorage.getItem('jukedrop-playlist');
-    if (loadedPlaylist) {
-      this.setState({ paths: JSON.parse(loadedPlaylist) });
-    }
+  setPaths(paths) {
+    this.setState({ paths });
   }
   addPath(path) {
     // Don't add same path twice
@@ -279,7 +304,7 @@ class JukedropApp extends React.Component {
   // handle add file to playlist
   handleAddFile(path) {
   // TODO need to first check if in list. maybe further down in playlist, i think that should probably be responsible...
-    this.refs.playlist.addPath(path);
+    this.refs.playlists.addPath(path);
   }
 
   render() {
@@ -289,7 +314,7 @@ class JukedropApp extends React.Component {
           <DropboxFileList onChooseFile={this.handleChooseFile} onAddFile={this.handleAddFile} homeDirectory={this.props.config.homeDirectory} dropbox={this.dropbox} />
           <div className="jukedropAppRight">
             <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
-            <Playlist ref="playlist" onChooseFile={this.handleChooseFile} />
+            <Playlists ref="playlists" onChooseFile={this.handleChooseFile} />
           </div>
         </div>
       </div>
