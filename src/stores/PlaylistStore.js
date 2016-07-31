@@ -53,7 +53,7 @@ class ListStore extends EventEmitter {
 
   _remove(item) {
     this._items = this._items.filter(i => i !== item);
-    this.saveAndEmitChange();
+    this._saveAndEmitChange();
   }
 }
 

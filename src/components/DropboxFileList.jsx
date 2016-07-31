@@ -1,8 +1,7 @@
 import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
-import ActionConstants from '../constants/ActionConstants';
-import Dispatcher from '../Dispatcher';
+import PlaylistActions from '../actions/PlaylistActions';
 
 
 // TODO: reqd props onChooseFile, dropbox
@@ -15,6 +14,7 @@ class DropboxFileList extends React.Component {
     this.handleClickAddFile = this.handleClickAddFile.bind(this);
     this.renderFile = this.renderFile.bind(this);
   }
+
   handleClickFolder(name) {
     if (name == '..') {
       this.loadDirectoryFromDropbox(this.state.currentDirectory.replace(/\/[^\/]*$/, ''));
@@ -22,15 +22,17 @@ class DropboxFileList extends React.Component {
       this.loadDirectoryFromDropbox(this.state.currentDirectory + '/' + name);
     }
   }
+
   handleClickAddFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
-    console.log('dispatching');
-    Dispatcher.dispatch({ actionType: ActionConstants.PLAYLIST_ADD_ITEM, path: path });
+    PlaylistActions.addToPlaylist(path);
   }
+
   handleClickFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
     this.props.onChooseFile(path);
   }
+
   loadDirectoryFromDropbox(path) {
     if (path === '/') path == '';
 
@@ -48,9 +50,11 @@ class DropboxFileList extends React.Component {
       console.error(error); // TODO
     });
   }
+
   componentDidMount() {
     this.loadDirectoryFromDropbox(this.props.homeDirectory || '');
   }
+
   renderFile(file) {
     if (file.type === 'folder') {
       return <DropboxFolder onClick={this.handleClickFolder} name={file.name} key={file.name} />
@@ -58,6 +62,7 @@ class DropboxFileList extends React.Component {
       return <DropboxFile onClick={this.handleClickFile} onClickAdd={this.handleClickAddFile} name={file.name} key={file.name} />
     }
   }
+
   render() {
     // TODO: add a status
     return (

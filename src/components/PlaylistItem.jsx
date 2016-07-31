@@ -1,6 +1,5 @@
 import React from 'react';
-import ActionConstants from '../constants/ActionConstants';
-import Dispatcher from '../Dispatcher';
+import PlaylistActions from '../actions/PlaylistActions';
 
 class PlaylistItem extends React.Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class PlaylistItem extends React.Component {
   }
 
   handleClickRemove(e) {
-    Dispatcher.dispatch({ actionType: ActionConstants.PLAYLIST_REMOVE_ITEM, item: this.props.path });
+    PlaylistActions.removeFromPlaylist(this.props.path);
   }
 
   render() {
