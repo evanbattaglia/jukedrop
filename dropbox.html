@@ -69,6 +69,7 @@ font-style:normal;
 text-align:left;
 text-indent:-9999px;
 direction:ltr
+box-sizing:border-box
 }
 .iconMusic:before
 {
@@ -94,9 +95,19 @@ box-shadow:inset 0 0 0 32px,16px 0 0 0
 {
 content:'';pointer-events:none
 }
-.iconMusic,.iconMusic *
+
+.iconFile
 {
-box-sizing:border-box
+color: #aaa;
+display:inline-block;vertical-align:middle;position:relative;font-style:normal;text-align:left;text-indent:-9999px;direction:ltr;
+border:2px solid;
+box-sizing:border-box;
+width:26px;height:32px;border-radius:0 12px 0 0;margin:1px 4px
+}
+.iconFile:before
+{
+position:absolute;top:-2px;right:-2px;border-style:solid;width:0;height:0;border-width:5px;border-top-color:transparent;border-right-color:transparent;
+content:'';pointer-events:none
 }
 
 </style>
@@ -121,7 +132,8 @@ class DropboxFile extends DropboxBaseFile {
   render() {
     return (
       <div className="dropboxFile">
-        <div className="iconMusic" /> <a href="" onClick={this.handleClick}>{this.props.name}</a>
+        <div className={ this.props.name.match(/\.mp3$/) ? 'iconMusic' : 'iconFile' } />
+        <a href="" onClick={this.handleClick}>{this.props.name}</a>
       </div>
     );
   }
@@ -141,20 +153,24 @@ class DropboxFolder extends DropboxBaseFile {
 class DropboxFileList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {currentDirectory: this.props.homeDirectory || '', files: []};
+    this.state = { files: []};
     this.handleClickFolder = this.handleClickFolder.bind(this);
     this.handleClickFile = this.handleClickFile.bind(this);
     this.renderFile = this.renderFile.bind(this);
   }
   handleClickFolder(name) {
-    this.loadDirectoryFromDropbox('/' + name);
+    if (name == '..') {
+      this.loadDirectoryFromDropbox(this.state.currentDirectory.replace(/\/[^\/]*$/, ''));
+    } else {
+      this.loadDirectoryFromDropbox(this.state.currentDirectory + '/' + name);
+    }
   }
   handleClickFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
     this.props.onChooseFile(path);
   }
-  loadDirectoryFromDropbox(subdir) {
-    let path = this.state.currentDirectory + subdir;
+  loadDirectoryFromDropbox(path) {
+    if (path === '/') path == '';
 
     this.props.dropbox.filesListFolder({ path })
     .then(response => {
@@ -162,6 +178,7 @@ class DropboxFileList extends React.Component {
         name: entry.name,
         type: entry['.tag'],
       }});
+      if (path) files.unshift({ name: '..', type: 'folder' });
 
       this.setState({ files, currentDirectory: path });
     })
@@ -170,7 +187,7 @@ class DropboxFileList extends React.Component {
     });
   }
   componentDidMount() {
-    this.loadDirectoryFromDropbox('');
+    this.loadDirectoryFromDropbox(this.props.homeDirectory || '');
   }
   renderFile(file) {
     if (file.type === 'folder') {
@@ -183,6 +200,7 @@ class DropboxFileList extends React.Component {
     // TODO: add a status
     return (
       <div className="dropboxFileList">
+        <div>{ this.state.currentDirectory }</div>
         { this.state.files.map(this.renderFile) }
       </div>
     );
