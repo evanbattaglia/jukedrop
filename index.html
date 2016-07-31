@@ -116,8 +116,10 @@ class DropboxFileList extends React.Component {
     // TODO: add a status
     return (
       <div className="dropboxFileList">
-        <h2>{ this.state.currentDirectory }</h2>
-        { this.state.files.map(this.renderFile) }
+        <div className="dropboxFileListInner">
+          <h2>{ this.state.currentDirectory }</h2>
+          { this.state.files.map(this.renderFile) }
+        </div>
       </div>
     );
   }
@@ -178,8 +180,8 @@ class DropboxAudio extends React.Component {
   render() {
     return (
       <div className="dropboxAudio">
-        <DropboxAudioStatus status={this.state.status} type={this.state.type} />
         <Audio data={this.state.data} />
+        <div>Status: {this.state.status}</div>
         <div>{this.state.path}</div>
       </div>
     );
@@ -285,9 +287,11 @@ class JukedropApp extends React.Component {
       <div className="jukedropApp">
         <div className="jukedropAppTop">
           <DropboxFileList onChooseFile={this.handleChooseFile} onAddFile={this.handleAddFile} homeDirectory={this.props.config.homeDirectory} dropbox={this.dropbox} />
-          <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
+          <div className="jukedropAppRight">
+            <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
+            <Playlist ref="playlist" onChooseFile={this.handleChooseFile} />
+          </div>
         </div>
-        <Playlist ref="playlist" onChooseFile={this.handleChooseFile} />
       </div>
     );
   }

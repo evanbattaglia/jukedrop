@@ -1,19 +1,32 @@
+body {
+  margin: 0px;
+}
+
 .jukedropAppTop {
   display: flex;
+  margin: 0px;
+}
+
+.jukedropAppRight {
+  padding: 10px 5px 5px 5px;
+  width: 40%;
 }
 
 .dropboxAudio {
-  width: 450px;
+  height: 100px;
 }
 
 .dropboxAudio audio {
-  width: 450px;
+  width: 100%;
 }
 
 .dropboxFileList {
   flex-grow: 1;
-  height: 600px;
+  height: 100vh;
   overflow-y: scroll;
+  padding: 0px 8px 8px 8px;
+}
+.dropboxFileListInner {
 }
 
 .playlistItemRemove {
