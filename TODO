@@ -1,0 +1,5 @@
+- multiple playlists
+- continuous playing of playlists (eventually, with anticipated loading)
+- exporting of playlists (eventually, to Dropbox)
+- loading of directories for quick search
+- id3 tags? probably not... maybe just directory name in playlist (good for artists directory)
