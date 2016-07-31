@@ -325,6 +325,20 @@ class Playlist extends React.Component {
     this.state = { paths: [] };
     this.removePath = this.removePath.bind(this);
   }
+  setState(props) {
+    if (props.paths) {
+      // TODO: move storage to own class, eventually (will be responsible for holding many playlist).
+      // at the very least set this string to a constant. TODO: figure out how to do class constants (and/or split up into files)
+      localStorage.setItem('jukedrop-playlist', JSON.stringify(props.paths));
+    }
+    super.setState(props);
+  }
+  componentDidMount() {
+    const loadedPlaylist = localStorage.getItem('jukedrop-playlist');
+    if (loadedPlaylist) {
+      this.setState({ paths: JSON.parse(loadedPlaylist) });
+    }
+  }
   addPath(path) {
     // Don't add same path twice
     if (~this.state.paths.indexOf(path)) return;
