@@ -226,6 +226,8 @@ class Playlists extends React.Component {
   }
 
   addPath(path) {
+    // TODO IMPORTANT: under flux model, I think this should change the data level directly,
+    // instead of changing view which then (with a callback) updates data level.(in handleChoosePlaylist)
     this.refs.playlist.addItem(path);
   }
 
