@@ -13,7 +13,7 @@
 <div id="content"></div>
 <script type="text/babel">
 
-class DropboxFile extends React.Component {
+class DropboxBaseFile extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -23,42 +23,86 @@ class DropboxFile extends React.Component {
     e.preventDefault();
     this.props.onClick(this.props.name);
   }
+}
 
+class DropboxFile extends DropboxBaseFile {
   render() {
     return (
       <div className="dropboxFile">
-        <a href="" onClick={this.handleClick}>{this.props.name}</a>
+        (file) <a href="" onClick={this.handleClick}>{this.props.name}</a>
       </div>
     );
   }
 }
 
+class DropboxFolder extends DropboxBaseFile {
+  render() {
+    return (
+      <div className="dropboxFile">
+        (folder) <a href="" onClick={this.handleClick}>{this.props.name}</a>
+      </div>
+    );
+  }
+}
+
+// TODO: reqd props onChooseFile, dropbox
 class DropboxFileList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {currentDirectory: '/', files: [ 'abc', '123' ]};
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {currentDirectory: this.props.homeDirectory || '', files: []};
+    this.handleClickFolder = this.handleClickFolder.bind(this);
+    this.handleClickFile = this.handleClickFile.bind(this);
+    this.renderFile = this.renderFile.bind(this);
   }
-  handleClick(filename) {
-    const path = this.state.currentDirectory + filename;
-    console.log("click on ", path);
+  handleClickFolder(name) {
+    this.loadDirectoryFromDropbox('/' + name);
+  }
+  handleClickFile(filename) {
+    const path = this.state.currentDirectory + '/' + filename;
+    this.props.onChooseFile(path);
+  }
+  loadDirectoryFromDropbox(subdir) {
+    let path = this.state.currentDirectory + subdir;
+
+    this.props.dropbox.filesListFolder({ path })
+    .then(response => {
+      const files = response.entries.map(entry => { return {
+        name: entry.name,
+        type: entry['.tag'],
+      }});
+
+      this.setState({ files, currentDirectory: path });
+    })
+    .catch(error => {
+      console.error(error); // TODO
+    });
+  }
+  componentDidMount() {
+    this.loadDirectoryFromDropbox('');
+  }
+  renderFile(file) {
+    if (file.type === 'folder') {
+      return <DropboxFolder onClick={this.handleClickFolder} name={file.name} key={file.name} />
+    } else {
+      return <DropboxFile onClick={this.handleClickFile} name={file.name} key={file.name} />
+    }
   }
   render() {
+    // TODO: add a status
     return (
       <div className="dropboxFileList">
-        {
-          this.state.files.map(file =>
-            <DropboxFile onClick={this.handleClick} name={file} key={file} />
-          )
-        }
+        { this.state.files.map(this.renderFile) }
       </div>
     );
   }
 }
 
 class Audio extends React.Component {
-  componentDidUpdate() {
-    this.refs.audio.load();
+  componentDidUpdate(prevProps) {
+    if (this.props.data !== prevProps.data) {
+      this.refs.audio.load();
+      this.refs.audio.play();
+    }
   }
   render() {
     return (
@@ -105,9 +149,6 @@ class DropboxAudio extends React.Component {
     this.dropbox = props.dropbox;
     this.state = { status: 'initial' };
   }
-  componentDidMount() {
-    this.play('/t2.mp3');
-  }
   render() {
     return (
       <div>
@@ -122,12 +163,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.dropbox = new Dropbox({ accessToken: this.props.accessToken }); // TOOD: should this be in state? or even props?
+    this.handleChooseFile = this.handleChooseFile.bind(this);
+  }
+  handleChooseFile(path) {
+    this.refs.dropboxAudio.play(path);
   }
   render() {
     return (
       <div>
-        <DropboxFileList dropbox={this.dropbox} />
-        <DropboxAudio dropbox={this.dropbox} />
+        <DropboxFileList onChooseFile={this.handleChooseFile} homeDirectory="/android" dropbox={this.dropbox} />
+        <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
       </div>
     );
   }
