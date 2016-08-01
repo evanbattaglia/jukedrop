@@ -3,3 +3,4 @@ old/**
 dropbox-sdk-js/**
 node_modules
 public
+dist
