@@ -1,74 +1,43 @@
 import {EventEmitter} from 'events';
-import Dispatcher from '../Dispatcher';
 import ActionConstants from '../constants/ActionConstants';
-
-const CHANGE_EVENT = 'change';
-
-class ListStore extends EventEmitter {
-  // PUBLIC METHODS
-  addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  }
-
-  removeChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  }
-
-  getItems() {
-    return this._items;
-  }
-
-  // CONSTRUCTOR
-  constructor(storageKey) {
-    super();
-    this.dispatcherIndex = Dispatcher.register(this._handleDispatch.bind(this));
-    this._storageKey = storageKey;
-    this._items = [];
-    this._loadFromSource();
-  }
-
-  // PRIVATE METHODS
-  _emitChange() {
-    this.emit(CHANGE_EVENT);
-  }
-
-  _loadFromSource() {
-    const loadedJson = localStorage.getItem(this._storageKey);
-    if (loadedJson) {
-      this._items = JSON.parse(loadedJson).filter(x => x);
-      this._emitChange();
-    }
-  }
-
-  _saveAndEmitChange() {
-    localStorage.setItem(this._storageKey, JSON.stringify(this._items));
-    this._emitChange();
-  }
-
-  _add(item) {
-    if (~this._items.indexOf(item)) return;
-    this._items.push(item);
-    this._saveAndEmitChange();
-  }
-
-  _remove(item) {
-    this._items = this._items.filter(i => i !== item);
-    this._saveAndEmitChange();
-  }
-}
+import ListStore from './ListStore';
 
 class PlaylistStore extends ListStore {
-  constructor() {
-    const LOCAL_STORAGE_KEY = 'jukedrop-playlist';
-    super(LOCAL_STORAGE_KEY);
+  // constructor not needed: starts out with
+  // undefined playlistName and empty items.
+  getPlaylistName() {
+    return this._playlistName;
+  }
+
+  // Protected Methods:
+  _setPlaylistName(name) {
+    this._playlistName = name;
+    this._loadFromSource(); // this also emits change
+  }
+
+  _storageKey() {
+    return 'jukedrop-playlist-' + this._playlistName; // TODO: sanitize?
+  }
+
+  // Protected Methods Used by ListStore:
+  _loadJsonFromSource() {
+    return localStorage.getItem(this._storageKey());
+  }
+
+  _saveJsonToSource(jsonStr) {
+    localStorage.setItem(this._storageKey(), jsonStr);
   }
 
   _handleDispatch(payload) {
     // TODO: I think this could be improved to remove all the if/else
-    if (payload.actionType === ActionConstants.PLAYLIST_REMOVE_ITEM) {
+    if (payload.actionType === ActionConstants.CURRENT_PLAYLIST_REMOVE_ITEM) {
       this._remove(payload.path);
-    } else if (payload.actionType === ActionConstants.PLAYLIST_ADD_ITEM) {
+    } else if (payload.actionType === ActionConstants.CURRENT_PLAYLIST_ADD_ITEM) {
       this._add(payload.path);
+    } else if (payload.actionType === ActionConstants.PLAYLISTS_DELETE) {
+      // TODO
+    } else if (payload.actionType === ActionConstants.PLAYLISTS_CHOOSE) {
+      this._setPlaylistName(payload.name);
     }
   }
 }

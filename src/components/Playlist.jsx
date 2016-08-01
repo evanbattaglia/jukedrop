@@ -15,7 +15,7 @@ class Playlist extends React.Component {
   }
 
   getStateFromStore() {
-    return {paths: PlaylistStore.getItems()};
+    return {name: PlaylistStore.getPlaylistName(), paths: PlaylistStore.getItems()};
   }
 
   updateStateFromStore() {
@@ -23,10 +23,9 @@ class Playlist extends React.Component {
   }
 
   render() {
-    // TODO: move onPlay to dispatcher.
     return (
       <div className="playlist">
-        <h2>Playlist</h2>
+        <h2>Playlist: {this.state.name || '[No playlist selected]' }</h2>
         {
           this.state.paths.map(path =>
             <PlaylistItem

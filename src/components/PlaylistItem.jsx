@@ -1,5 +1,5 @@
 import React from 'react';
-import PlaylistActions from '../actions/PlaylistActions';
+import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import AudioActions from '../actions/AudioActions';
 
 class PlaylistItem extends React.Component {
@@ -15,7 +15,7 @@ class PlaylistItem extends React.Component {
   }
 
   handleClickRemove(e) {
-    PlaylistActions.removeFromPlaylist(this.props.path);
+    CurrentPlaylistActions.removeFromPlaylist(this.props.path);
   }
 
   render() {

@@ -5,8 +5,12 @@ import keymirror from 'keymirror'
 // Constants for all actions
 
 export default keymirror({
-  PLAYLIST_ADD_ITEM: null,
-  PLAYLIST_REMOVE_ITEM: null,
+  CURRENT_PLAYLIST_ADD_ITEM: null,
+  CURRENT_PLAYLIST_REMOVE_ITEM: null,
+
+  PLAYLISTS_ADD: null,
+  PLAYLISTS_DELETE: null,
+  PLAYLISTS_CHOOSE: null,
 
   AUDIO_PLAY: null,
 });

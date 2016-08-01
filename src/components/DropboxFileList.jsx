@@ -1,7 +1,7 @@
 import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
-import PlaylistActions from '../actions/PlaylistActions';
+import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import AudioActions from '../actions/AudioActions';
 
 
@@ -27,7 +27,7 @@ class DropboxFileList extends React.Component {
 
   handleClickAddFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
-    PlaylistActions.addToPlaylist(path);
+    CurrentPlaylistActions.addToPlaylist(path);
   }
 
   handleClickFile(filename) {

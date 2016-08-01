@@ -7,7 +7,7 @@ export default {
    */
   addToPlaylist(path) {
     Dispatcher.dispatch({
-      actionType: ActionConstants.PLAYLIST_ADD_ITEM,
+      actionType: ActionConstants.CURRENT_PLAYLIST_ADD_ITEM,
       path: path,
     });
   },
@@ -17,7 +17,7 @@ export default {
    */
   removeFromPlaylist(path) {
     Dispatcher.dispatch({
-      actionType: ActionConstants.PLAYLIST_REMOVE_ITEM,
+      actionType: ActionConstants.CURRENT_PLAYLIST_REMOVE_ITEM,
       path: path,
     });
   },
