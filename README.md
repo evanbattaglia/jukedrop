@@ -5,7 +5,8 @@
 # Building
 ```
 npm install
-npm run build
+npm run dist
+cd dist/
 ```
 
 # Setup (prebuilt version, forthcoming)
