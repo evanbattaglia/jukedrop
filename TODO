@@ -4,7 +4,7 @@
     at the top. then add a playlist "add all to queue"
 - exporting of playlists (eventually, to Dropbox)
   (playlists to dropbox will be important so can have playlists shared between computers!)
-- figure out why i 
+- search bar for directory
 
 - make it so "add" doesn't appear if you don't have a selected playlist
   -> hook up playlist change to have state in filelist, "hasCurrentPlaylist"

@@ -13,4 +13,5 @@ export default keymirror({
   PLAYLISTS_CHOOSE: null,
 
   AUDIO_PLAY: null,
+  AUDIO_ENDED: null,
 });
