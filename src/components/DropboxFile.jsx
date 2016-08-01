@@ -14,8 +14,8 @@ class DropboxFile extends DropboxBaseFile {
     return (
       <div className="dropboxFile">
         <div className={ this.props.name.match(/\.mp3$/) ? 'iconMusic' : 'iconFile' } />
-        <a href="#" onClick={this.handleClick}>{this.props.name}</a>
-        <a href="#" onClick={this.handleClickAdd}>(add)</a>
+        <a href="#" className="dropboxName" onClick={this.handleClick}>{this.props.name}</a>
+        <a href="#" className="dropboxFileAdd" onClick={this.handleClickAdd}>(add)</a>
       </div>
     );
   }

@@ -29,6 +29,27 @@ body {
 .dropboxFileListInner {
 }
 
+.dropboxFile, .dropboxFolder {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+.dropboxFile:hover, .dropboxFolder:hover {
+  background-color: #e2f2ff;
+}
+.dropboxFile a, .dropboxFolder a {
+  color: #2A2A2A;
+  text-decoration: none;
+}
+.dropboxFile a:hover, .dropboxFolder a:hover {
+  text-decoration: underline;
+}
+.dropboxFile .iconFile, .dropboxFolder .iconFolder {
+  margin-right: 15px;
+}
+.dropboxFile a.dropboxFileAdd {
+  text-align: right;
+}
+
 .playlistItemRemove {
   cursor: pointer;
 }
