@@ -13,4 +13,8 @@ export default keymirror({
   PLAYLISTS_CHOOSE: null,
 
   AUDIO_PLAY: null,
+  AUDIO_ENDED: null,
+
+  CONTROL_SET_LIST_STATE: null. // this will affect view of playlists, too. currently playing playlist should be designated.
+  CONTROL_SET_MODE: null,
 });

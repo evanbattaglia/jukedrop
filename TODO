@@ -1,6 +1,7 @@
 - continuous playing of playlists (eventually, with anticipated loading)
 - exporting of playlists (eventually, to Dropbox)
   (playlists to dropbox will be important so can have playlists shared between computers!)
+- search bar for directory
 
 - Flux -- add DidUnmount -> removeEventListener
 - fluxize more -- DropboxFile stuff, Audio. but simple enough for now.
