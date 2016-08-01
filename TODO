@@ -1,11 +1,14 @@
+- continuous playing of playlists (eventually, with anticipated loading)
+- exporting of playlists (eventually, to Dropbox)
+  (playlists to dropbox will be important so can have playlists shared between computers!)
+
 - Flux -- add DidUnmount -> removeEventListener
 - fluxize more -- DropboxFile stuff, Audio. but simple enough for now.
   (when we get to stopping, continuous loading, etc., it will probably require more)
-- multiple playlists
-- continuous playing of playlists (eventually, with anticipated loading)
-- exporting of playlists (eventually, to Dropbox)
-- separate jsx files compiled into one index.html (for use on local filesystem file:/// URL)
+
 - hierarchy of playlists, like I always wanted in a jukebox
 - set accesstoken on first load & store in localstorage, for stupid-simple setup
+- settings area with accesstoken and default directory
+
 - loading of directories for quick search
 - id3 tags? probably not... maybe just directory name in playlist (good for artists directory)
