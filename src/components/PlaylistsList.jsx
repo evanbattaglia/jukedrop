@@ -20,7 +20,8 @@ class Playlist extends React.Component {
     this.setState(this.getStateFromStore());
   }
 
-  handleAddClick() {
+  handleAddClick(e) {
+    e.preventDefault();
     PlaylistsActions.addPlaylist(prompt("Name of new playlist?"));
   }
 

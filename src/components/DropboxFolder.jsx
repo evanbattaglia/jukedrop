@@ -6,7 +6,7 @@ class DropboxFolder extends DropboxBaseFile {
     return (
       <div className="dropboxFolder">
         <div className="iconFolder" />
-        <a href="" className="dropboxName" onClick={this.handleClick}>{this.props.name}</a>
+        <a href="#" className="dropboxName" onClick={this.handleClick}>{this.props.name}</a>
       </div>
     );
   }
