@@ -21,11 +21,17 @@ class PlaylistStore extends ListStore {
 
   // Protected Methods Used by ListStore:
   _loadJsonFromSource() {
-    return localStorage.getItem(this._storageKey());
+    if (this._playlistName) {
+      return localStorage.getItem(this._storageKey());
+    } else {
+      return null;
+    }
   }
 
   _saveJsonToSource(jsonStr) {
-    localStorage.setItem(this._storageKey(), jsonStr);
+    if (this._playlistName) {
+      localStorage.setItem(this._storageKey(), jsonStr);
+    }
   }
 
   _handleDispatch(payload) {
@@ -35,7 +41,7 @@ class PlaylistStore extends ListStore {
     } else if (payload.actionType === ActionConstants.CURRENT_PLAYLIST_ADD_ITEM) {
       this._add(payload.path);
     } else if (payload.actionType === ActionConstants.PLAYLISTS_DELETE) {
-      // TODO
+      if (payload.name === this._playlistName) this._setPlaylistName(null);
     } else if (payload.actionType === ActionConstants.PLAYLISTS_CHOOSE) {
       this._setPlaylistName(payload.name);
     }
