@@ -16,6 +16,7 @@ class JukedropApp extends React.Component {
         <div className="jukedropAppTop">
           <DropboxFileList homeDirectory={this.props.config.homeDirectory} dropbox={this.dropbox} />
           <div className="jukedropAppRight">
+            <img src="static/logo.png" />
             <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
             <PlaylistsList />
             <Playlist />
