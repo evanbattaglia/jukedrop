@@ -1,17 +1,17 @@
 import React from 'react';
 import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
-import AudioActions from '../actions/AudioActions';
+import ControlActions from '../actions/ControlActions';
 
 class PlaylistItem extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClickPlay = this.handleClickPlay.bind(this);
+    this.handleClickItem = this.handleClickItem.bind(this);
     this.handleClickRemove = this.handleClickRemove.bind(this);
   }
 
-  handleClickPlay(e) {
+  handleClickItem(e) {
     e.preventDefault();
-    AudioActions.play(this.props.path);
+    ControlActions.loadSong(this.props.path);
   }
 
   handleClickRemove(e) {
@@ -22,7 +22,7 @@ class PlaylistItem extends React.Component {
     return (
       <div>
         <div className="iconRemove playlistItemRemove" onClick={this.handleClickRemove}></div>
-        <a href="#" onClick={this.handleClickPlay} title={this.props.path}>
+        <a href="#" onClick={this.handleClickItem} title={this.props.path}>
           {this.props.path.replace(/^.*\//, '')}
         </a>
       </div>

@@ -1,13 +1,17 @@
 import React from 'react';
 import AudioActions from '../actions/AudioActions';
+import PlayerControllerStore from '../stores/PlayerControllerStore'
 
 class Audio extends React.Component {
-  constructor() {
-    this.handleOnEnded = this.handleOnEnded.bind(this);
+  constructor(props) {
+    super(props)
   }
 
-  handleOnEnded() {
-    AudioActions.ended();
+  componentDidMount() {
+    PlayerControllerStore.addReplayListener(() => {
+      this.refs.audio.currentTime = 0;
+      this.refs.audio.play();
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -18,8 +22,8 @@ class Audio extends React.Component {
   }
   render() {
     return (
-      <audio preload="none" ref="audio" controls>
-        <source src={this.props.data} type={this.props.type} onended={this.handleOnEnded} />
+      <audio preload="none" ref="audio" controls onEnded={AudioActions.ended}>
+        <source src={this.props.data} type={this.props.type} />
       </audio>
     );
   }

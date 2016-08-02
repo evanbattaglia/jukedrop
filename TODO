@@ -10,6 +10,7 @@
   -> hook up playlist change to have state in filelist, "hasCurrentPlaylist"
 - rename playlist
 - Flux -- add DidUnmount -> removeEventListener
+- linting
 - fluxize more -- DropboxFile stuff, Audio. but simple enough for now.
   (when we get to stopping, continuous loading, etc., it will probably require more)
 

@@ -12,6 +12,7 @@ export default keymirror({
   PLAYLISTS_DELETE: null,
   PLAYLISTS_CHOOSE: null,
 
-  AUDIO_PLAY: null,
+  CONTROL_LOAD_SONG: null,
+
   AUDIO_ENDED: null,
 });

@@ -1,8 +1,7 @@
 import React from 'react';
 import Audio from './Audio.jsx';
 
-import Dispatcher from '../Dispatcher';
-import ActionConstants from '../constants/ActionConstants';
+import PlayerControllerStore from '../stores/PlayerControllerStore';
 
 class DropboxAudio extends React.Component {
   constructor(props) {
@@ -12,17 +11,12 @@ class DropboxAudio extends React.Component {
   }
 
   componentDidMount() {
-    // TODO TODOFLUX Fluxize? at least Dropbox stuff should go in a source...
-    // probably move this to store
-    // maybe the current file name and status would be the state (store).
-    // store could also be concerned with not playing until another has started, etc.
-    Dispatcher.register(payload => {
-      if (payload.actionType === ActionConstants.AUDIO_PLAY) {
-        this.play(payload.path);
-      }
+    PlayerControllerStore.addSongChangeListener(() => {
+      this.play(PlayerControllerStore.getCurrentSong());
     });
   }
 
+  // TODO: this bit of status is anti-flux?
   setStatus(status) {
     this.setState({ status });
   }

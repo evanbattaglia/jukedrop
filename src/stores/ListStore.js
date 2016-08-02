@@ -28,7 +28,7 @@ class ListStore extends EventEmitter {
   }
 
   removeChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.removeListener(CHANGE_EVENT, callback);
   }
 
   getItems() {

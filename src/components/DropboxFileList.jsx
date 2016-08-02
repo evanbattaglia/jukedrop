@@ -2,7 +2,7 @@ import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
 import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
-import AudioActions from '../actions/AudioActions';
+import ControlActions from '../actions/ControlActions';
 
 
 // TODO: reqd props dropbox
@@ -32,7 +32,7 @@ class DropboxFileList extends React.Component {
 
   handleClickFile(filename) {
     const path = this.state.currentDirectory + '/' + filename;
-    AudioActions.play(path);
+    ControlActions.loadSong(path);
   }
 
   loadDirectoryFromDropbox(path) {
