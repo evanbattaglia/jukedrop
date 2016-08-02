@@ -1,6 +1,7 @@
 import React from 'react';
 import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import ControlActions from '../actions/ControlActions';
+import {basename} from '../util'
 
 class PlaylistItem extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class PlaylistItem extends React.Component {
       <div>
         <div className="iconRemove playlistItemRemove" onClick={this.handleClickRemove}></div>
         <a href="#" onClick={this.handleClickItem} title={this.props.path}>
-          {this.props.path.replace(/^.*\//, '')}
+          {basename(this.props.path)}
         </a>
         <a href="#" onClick={this.handleClickQueue}>(queue)</a>
       </div>

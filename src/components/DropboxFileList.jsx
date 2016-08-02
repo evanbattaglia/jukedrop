@@ -1,7 +1,7 @@
 import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
-
+import {dirname} from '../util';
 
 // TODO: reqd props dropbox
 // TODO: make a store for this probably
@@ -10,14 +10,12 @@ class DropboxFileList extends React.Component {
     super(props);
     this.state = { files: []};
     this.handleClickFolder = this.handleClickFolder.bind(this);
-    this.handleClickFile = this.handleClickFile.bind(this);
-    this.handleClickAddFile = this.handleClickAddFile.bind(this);
     this.renderFile = this.renderFile.bind(this);
   }
 
   handleClickFolder(name) {
     if (name == '..') {
-      this.loadDirectoryFromDropbox(this.state.currentDirectory.replace(/\/[^\/]*$/, ''));
+      this.loadDirectoryFromDropbox(dirname(this.state.currentDirectory));
     } else {
       this.loadDirectoryFromDropbox(this.state.currentDirectory + '/' + name);
     }
@@ -50,7 +48,7 @@ class DropboxFileList extends React.Component {
     if (file.type === 'folder') {
       return <DropboxFolder onClick={this.handleClickFolder} name={file.name} key={file.name} />
     } else {
-      return <DropboxFile name={file.name} key={file.name} path={this.state.currentDirectory + '/' + file}/>
+      return <DropboxFile name={file.name} key={file.name} path={this.state.currentDirectory + '/' + file.name} />
     }
   }
 

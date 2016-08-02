@@ -1,5 +1,6 @@
 import React from 'react';
-import PlayerControllerStore from '../stores/PlaylistStore';
+import PlayerControllerStore from '../stores/PlayerControllerStore';
+import {basename} from '../util'
 
 class SongQueue extends React.Component {
   constructor(props) {
@@ -8,8 +9,8 @@ class SongQueue extends React.Component {
   }
 
   componentDidMount() {
-    PlayerControllerStore.addChangeListener(() => {
-      setState({ queue: PlayerController.getQueue() });
+    PlayerControllerStore.addQueueChangeListener(() => {
+      this.setState({ queue: PlayerControllerStore.getQueue() });
     });
   }
 
@@ -19,7 +20,7 @@ class SongQueue extends React.Component {
         <h2>Song Queue:</h2>
         {
           this.state.queue.map(path =>
-            <div>{path}</div>
+            <div key={path}>{basename(path)}</div>
           )
         }
       </div>

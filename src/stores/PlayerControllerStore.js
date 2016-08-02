@@ -41,7 +41,6 @@ function addSongToQueue(path) {
 }
 
 function replay() {
-  playing = true;
   eventEmitter.emit(Events.REPLAY_EVENT);
 }
 
@@ -62,7 +61,7 @@ function handleAudioEnded() {
     loadSong(song);
     eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
   } else {
-    emitReplay();
+    replay();
   }
 }
 

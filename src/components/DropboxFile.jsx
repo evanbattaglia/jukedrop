@@ -17,7 +17,7 @@ class DropboxFile extends React.Component {
 
   handleClickAdd(e) {
     e.preventDefault();
-    CurrentPlaylistActions.add(this.props.path);
+    CurrentPlaylistActions.addToPlaylist(this.props.path);
   }
 
   handleClickQueue(e) {
