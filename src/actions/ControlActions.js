@@ -11,4 +11,13 @@ export default {
       path: path,
     });
   },
+  /**
+   * @param {string} path
+   */
+  addSongToQueue(path) {
+    Dispatcher.dispatch({
+      actionType: ActionConstants.CONTROL_ADD_SONG_TO_QUEUE,
+      path: path,
+    });
+  },
 };

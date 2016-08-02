@@ -7,11 +7,17 @@ class PlaylistItem extends React.Component {
     super(props);
     this.handleClickItem = this.handleClickItem.bind(this);
     this.handleClickRemove = this.handleClickRemove.bind(this);
+    this.handleClickQueue = this.handleClickQueue.bind(this);
   }
 
   handleClickItem(e) {
     e.preventDefault();
     ControlActions.loadSong(this.props.path);
+  }
+
+  handleClickQueue(e) {
+    e.preventDefault();
+    ControlActions.addSongToQueue(this.props.path);
   }
 
   handleClickRemove(e) {
@@ -25,6 +31,7 @@ class PlaylistItem extends React.Component {
         <a href="#" onClick={this.handleClickItem} title={this.props.path}>
           {this.props.path.replace(/^.*\//, '')}
         </a>
+        <a href="#" onClick={this.handleClickQueue}>(queue)</a>
       </div>
     );
   }

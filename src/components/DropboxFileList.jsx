@@ -1,8 +1,6 @@
 import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
-import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
-import ControlActions from '../actions/ControlActions';
 
 
 // TODO: reqd props dropbox
@@ -25,17 +23,8 @@ class DropboxFileList extends React.Component {
     }
   }
 
-  handleClickAddFile(filename) {
-    const path = this.state.currentDirectory + '/' + filename;
-    CurrentPlaylistActions.addToPlaylist(path);
-  }
-
-  handleClickFile(filename) {
-    const path = this.state.currentDirectory + '/' + filename;
-    ControlActions.loadSong(path);
-  }
-
   loadDirectoryFromDropbox(path) {
+    // TODO: fluxize all this? store for current directory & files?
     if (path === '/') path == '';
 
     this.props.dropbox.filesListFolder({ path })
@@ -61,7 +50,7 @@ class DropboxFileList extends React.Component {
     if (file.type === 'folder') {
       return <DropboxFolder onClick={this.handleClickFolder} name={file.name} key={file.name} />
     } else {
-      return <DropboxFile onClick={this.handleClickFile} onClickAdd={this.handleClickAddFile} name={file.name} key={file.name} />
+      return <DropboxFile name={file.name} key={file.name} path={this.state.currentDirectory + '/' + file}/>
     }
   }
 

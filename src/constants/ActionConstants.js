@@ -13,6 +13,7 @@ export default keymirror({
   PLAYLISTS_CHOOSE: null,
 
   CONTROL_LOAD_SONG: null,
+  CONTROL_ADD_SONG_TO_QUEUE: null,
 
   AUDIO_ENDED: null,
 });

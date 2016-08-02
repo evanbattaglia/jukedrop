@@ -1,7 +1,16 @@
 import React from 'react';
-import DropboxBaseFile from './DropboxBaseFile.jsx';
 
-class DropboxFolder extends DropboxBaseFile {
+class DropboxFolder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.props.onClick(this.props.name);
+  }
+
   render() {
     return (
       <div className="dropboxFolder">

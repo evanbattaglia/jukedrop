@@ -3,6 +3,7 @@ import DropboxFileList from './DropboxFileList.jsx';
 import DropboxAudio from './DropboxAudio.jsx';
 import Playlist from './Playlist.jsx';
 import PlaylistsList from './PlaylistsList.jsx';
+import SongQueue from './SongQueue.jsx';
 
 class JukedropApp extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class JukedropApp extends React.Component {
           <div className="jukedropAppRight">
             <img src="static/logo.png" />
             <DropboxAudio ref="dropboxAudio" dropbox={this.dropbox} />
+            <SongQueue />
             <PlaylistsList />
             <Playlist />
           </div>

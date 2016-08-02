@@ -14,14 +14,9 @@ import {EventEmitter} from 'events';
  */
 
 // constants
-const Modes = keymirror({
-  NORMAL: null,
-  REPEAT_ONE: null,
-});
-
 const Events = keymirror({
   SONG_CHANGE_EVENT: null,
-  MODE_CHANGE_EVENT: null,
+  QUEUE_CHANGE_EVENT: null,
   REPLAY_EVENT: null,
 });
 
@@ -29,37 +24,46 @@ const Events = keymirror({
 const eventEmitter = new EventEmitter();
 
 // state
-let mode = Modes.ONE_AND_STOP;
+
 let currentSong = null;
+let queue = [];
 
 function loadSong(path) {
   currentSong = path;
   eventEmitter.emit(Events.SONG_CHANGE_EVENT);
 }
 
-function emitReplay() {
+function addSongToQueue(path) {
+  if (!~queue.indexOf(path)) {
+    queue.push(path);
+    eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
+  }
+}
+
+function replay() {
+  playing = true;
   eventEmitter.emit(Events.REPLAY_EVENT);
 }
 
 // Dispatch handlers
 function handleDispatch(payload) {
   if (payload.actionType === ActionConstants.CONTROL_LOAD_SONG) {
-    // TODO: could add to queue if something is currently playing
     loadSong(payload.path);
+  } else if (payload.actionType === ActionConstants.CONTROL_ADD_SONG_TO_QUEUE) {
+    addSongToQueue(payload.path);
   } else if (payload.actionType === ActionConstants.AUDIO_ENDED) {
     handleAudioEnded();
   }
-
 }
 
 function handleAudioEnded() {
-  // if repeat_one: replay (eventually will also do this for hitting 'back'
-  emitReplay();
-  // else if one_off: stop (do nothing)
-  // else if playlist:
-  //   if forward_and_stop: play next in playlist, unless at end
-  //     TODO: how to we tell it to play next in playlist?
-  //   if repeat_all: play next in playlist, go back to beginning if at end
+  let song = queue.shift();
+  if (song) {
+    loadSong(song);
+    eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
+  } else {
+    emitReplay();
+  }
 }
 
 // Utility functions
@@ -76,15 +80,13 @@ function makeRemover(event) {
 
 export default {
   dispatcherIndex: Dispatcher.register(handleDispatch),
-  Modes,
-
   getCurrentSong: () => currentSong,
-  getMode: () => mode,
+  getQueue: () => queue,
 
   addSongChangeListener: makeAdder('SONG_CHANGE_EVENT'),
   removeSongChangeListener: makeRemover('SONG_CHANGE_EVENT'),
-  addModeChangeListener: makeAdder('MODE_CHANGE_EVENT'),
-  removeModeChangeListener: makeRemover('MODE_CHANGE_EVENT'),
+  addQueueChangeListener: makeAdder('QUEUE_CHANGE_EVENT'),
+  removeQueueChangeListener: makeRemover('QUEUE_CHANGE_EVENT'),
 
   // Tells audio to start over and replay
   addReplayListener: makeAdder('REPLAY_EVENT'),
