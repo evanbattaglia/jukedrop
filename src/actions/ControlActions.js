@@ -14,10 +14,11 @@ export default {
   /**
    * @param {string} path
    */
-  addSongToQueue(path) {
+  addToQueue(paths) {
+    if (!Array.isArray(paths)) paths = [paths];
     Dispatcher.dispatch({
-      actionType: ActionConstants.CONTROL_ADD_SONG_TO_QUEUE,
-      path: path,
+      actionType: ActionConstants.CONTROL_ADD_TO_QUEUE,
+      paths,
     });
   },
 };

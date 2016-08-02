@@ -22,7 +22,7 @@ class DropboxFile extends React.Component {
 
   handleClickQueue(e) {
     e.preventDefault();
-    ControlActions.addSongToQueue(this.props.path);
+    ControlActions.addToQueue(this.props.path);
   }
 
   render() {

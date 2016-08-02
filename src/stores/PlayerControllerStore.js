@@ -33,10 +33,12 @@ function loadSong(path) {
   eventEmitter.emit(Events.SONG_CHANGE_EVENT);
 }
 
-function addSongToQueue(path) {
-  if (!~queue.indexOf(path)) {
-    queue.push(path);
-    eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
+function addToQueue(paths) {
+  for (const path of paths) {
+    if (!~queue.indexOf(path)) {
+      queue.push(path);
+      eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
+    }
   }
 }
 
@@ -48,8 +50,8 @@ function replay() {
 function handleDispatch(payload) {
   if (payload.actionType === ActionConstants.CONTROL_LOAD_SONG) {
     loadSong(payload.path);
-  } else if (payload.actionType === ActionConstants.CONTROL_ADD_SONG_TO_QUEUE) {
-    addSongToQueue(payload.path);
+  } else if (payload.actionType === ActionConstants.CONTROL_ADD_TO_QUEUE) {
+    addToQueue(payload.paths);
   } else if (payload.actionType === ActionConstants.AUDIO_ENDED) {
     handleAudioEnded();
   }
