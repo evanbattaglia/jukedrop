@@ -1,6 +1,6 @@
 {
   "name": "jukedrop",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "",
   "dependencies": {
     "babel-core": "6.11.4",
