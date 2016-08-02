@@ -54,6 +54,8 @@ function handleDispatch(payload) {
     addToQueue(payload.paths);
   } else if (payload.actionType === ActionConstants.AUDIO_ENDED) {
     handleAudioEnded();
+  } else if (payload.actionType === ActionConstants.CONTROL_NEXT) {
+    handleAudioEnded();
   }
 }
 
@@ -62,7 +64,7 @@ function handleAudioEnded() {
   if (song) {
     loadSong(song);
     eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
-  } else {
+  } else if (currentSong) {
     replay();
   }
 }

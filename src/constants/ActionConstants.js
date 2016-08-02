@@ -14,6 +14,7 @@ export default keymirror({
 
   CONTROL_LOAD_SONG: null,
   CONTROL_ADD_TO_QUEUE: null,
+  CONTROL_NEXT: null,
 
   AUDIO_ENDED: null,
 });

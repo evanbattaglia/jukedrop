@@ -11,6 +11,7 @@ export default {
       path: path,
     });
   },
+
   /**
    * @param {string} path
    */
@@ -21,4 +22,10 @@ export default {
       paths,
     });
   },
+
+  next() {
+    Dispatcher.dispatch({
+      actionType: ActionConstants.CONTROL_NEXT,
+    })
+  }
 };
