@@ -28,7 +28,7 @@ class DropboxFile extends React.Component {
   render() {
     return (
       <div className="dropboxFile">
-        <div className={ this.props.name.match(/\.mp3$/) ? 'iconMusic' : 'iconFile' } />
+        <div className={ this.props.name.match(/\.(mp3|ogg)$/i) ? 'iconMusic' : 'iconFile' } />
         <a href="#" className="dropboxName" onClick={this.handleClick}>{this.props.name}</a>
         <a href="#" className="dropboxFileAdd" onClick={this.handleClickAdd}>(add)</a>
         <a href="#" className="dropboxFileQueue" onClick={this.handleClickQueue}>(queue)</a>

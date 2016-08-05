@@ -26,7 +26,7 @@ class DropboxAudio extends React.Component {
     this.props.dropbox.filesDownload({path})
     .then(response => {
       this.setStatus('converting');
-      const type = 'audio/mpeg'; // TOFIX when dropbox API improves
+      const type = path.match(/\.ogg$/i) ? 'audio/ogg' : 'audio/mpeg'; // TOFIX when dropbox API improves
       const blob = new Blob([response], {type}) // force content-type
       const reader = new window.FileReader();
       reader.readAsDataURL(blob);
