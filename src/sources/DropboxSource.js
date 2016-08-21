@@ -8,6 +8,7 @@ const dropbox = new Dropbox({ accessToken: JukedropConfig.accessToken });
 // to use something other than dropbox, just swap this outQ!
 export default {
   /**
+   *
    * @return { path, files }
    *   path is the path that was inputted
    *   files is an array of { type: 'folder', name: 'foo'} or { type: 'file', name: 'foo' }

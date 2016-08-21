@@ -13,3 +13,14 @@ export function preventDefaultWrap(callback) {
     callback();
   }
 }
+
+export function tryNTimes(promiseMaker, description, nTimes) {
+  if (!nTimes || nTimes <= 1) {
+    return promiseMaker();
+  } else {
+    return promiseMaker().catch(reason => {
+      console.log("Retrying ", description, " failure: ", reason);
+      return tryNTimes(promiseMaker, description, nTimes - 1);
+    });
+  }
+}
