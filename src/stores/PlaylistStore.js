@@ -1,6 +1,7 @@
 import alt from '../alt';
 import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import PlaylistsActions from '../actions/PlaylistsActions';
+import LocalStorage from '../sources/LocalStorage';
 
 class PlaylistStore {
   constructor() {
@@ -31,16 +32,7 @@ class PlaylistStore {
 
   setPlaylist(name) {
     this.playlistName = name;
-
-    // TODO: move to a source: LocalStorage.get(this.storageKey(), []); // [] is default
-    // LocalStorage.save(this.storageKey(), this.items);
-    const loadedJson = localStorage.getItem(this.storageKey());
-    if (loadedJson) {
-      this.items = JSON.parse(loadedJson).filter(x => x);
-    } else {
-      this.items = [];
-      this.save();
-    }
+    this.items = LocalStorage.get(this.storageKey(), []);
   }
 
   onDeletePlaylist(name) {
@@ -59,7 +51,7 @@ class PlaylistStore {
   }
 
   save() {
-    localStorage.setItem(this.storageKey(), JSON.stringify(this.items));
+    LocalStorage.set(this.storageKey(), this.items);
   }
 }
 

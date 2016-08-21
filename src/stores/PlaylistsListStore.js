@@ -1,5 +1,6 @@
 import alt from '../alt';
 import PlaylistsActions from '../actions/PlaylistsActions';
+import LocalStorage from '../sources/LocalStorage';
 
 const STORAGE_KEY =  'jukedrop-playlists-';
 
@@ -7,11 +8,7 @@ class PlaylistsListStore {
   // CONSTRUCTOR
   constructor() {
     this.bindActions(PlaylistsActions);
-
-    // TODO move to a source, see PlaylistStore
-    const loadedJson = localStorage.getItem(STORAGE_KEY) || '[]';
-    this.items = JSON.parse(loadedJson).filter(x => x);
-    this.save();
+    this.items = LocalStorage.get(STORAGE_KEY, []);
   }
 
   onAddPlaylist() {
@@ -28,7 +25,7 @@ class PlaylistsListStore {
   }
 
   save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
+    LocalStorage.set(STORAGE_KEY, this.items);
   }
 }
 

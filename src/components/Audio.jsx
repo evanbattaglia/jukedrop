@@ -1,5 +1,5 @@
 import React from 'react';
-import AudioActions from '../actions/AudioActions';
+import ControlMetaActions from '../actions/ControlActions';
 import CurrentSongStore from '../stores/CurrentSongStore'
 
 class Audio extends React.Component {
@@ -20,7 +20,7 @@ class Audio extends React.Component {
   }
   render() {
     return (
-      <audio preload="none" ref="audio" controls onEnded={AudioActions.ended}>
+      <audio preload="none" ref="audio" controls onEnded={ControlMetaActions.songEnded}>
         <source src={this.props.data} type={this.props.type} />
       </audio>
     );

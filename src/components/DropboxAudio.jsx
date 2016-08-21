@@ -21,6 +21,8 @@ class DropboxAudio extends React.Component {
   }
 
   play(path) { // TODO: better way to do this with props?
+    if (!path) return;
+
     if (path === this.state.path) {
       // don't redownload
       // TODO: there must be a better way

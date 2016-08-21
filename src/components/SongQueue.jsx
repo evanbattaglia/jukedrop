@@ -1,25 +1,24 @@
 import React from 'react';
-import CurrentSongStore from '../stores/CurrentSongStore';
-import ControlActions from '../actions/ControlActions';
+import SongQueueStore from '../stores/SongQueueStore';
+import ControlMetaActions from '../actions/ControlMetaActions';
 import {basename} from '../util'
 
 class SongQueue extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { queue: [] }
-    this.handleClickNext = this.handleClickNext.bind(this);
+    this.state = SongQueueStore.getState(); // TODO simplifiy with AltContainer
+    this.handleClickNext = this.handleClickNext.bind(this); // TODO simplify with AltContainer
+    // In future we will have an action that plays an item from the queue...
   }
 
   handleClickNext(e) {
     e.preventDefault();
-    ControlActions.next();
+    ControlMetaActions.next();
   }
 
   componentDidMount() {
-    // TODO this
-    //CurrentSongStore.addQueueChangeListener(() => {
-    //  this.setState({ queue: CurrentSongStore.getQueue() });
-    //});
+    // TODO simplify with AltContainer
+    SongQueueStore.listen(this.setState.bind(this));
   }
 
   render() {

@@ -2,7 +2,9 @@ import alt from '../alt';
 
 class ControlActions {
   constructor() {
-    this.generateActions('loadSong', 'next');
+    this.generateActions('loadSong', 'restartSong');
+
+    this.generateActions('nextFromQueue'); // "private" -- should be only invoked internally
   }
 
   // Accepts one path or an array of paths
