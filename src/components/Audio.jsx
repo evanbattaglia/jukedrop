@@ -1,5 +1,5 @@
 import React from 'react';
-import ControlMetaActions from '../actions/ControlActions';
+import ControlMetaActions from '../actions/ControlMetaActions';
 import CurrentSongStore from '../stores/CurrentSongStore'
 
 class Audio extends React.Component {
