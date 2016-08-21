@@ -1,8 +1,10 @@
 import React from 'react';
-import FileList from './FileList.jsx';
-import DropboxAudio from './DropboxAudio.jsx';
+
+import FileListContainer from '../containers/FileListContainer.jsx';
 import PlaylistContainer from '../containers/PlaylistContainer.jsx';
+
 import PlaylistsList from './PlaylistsList.jsx';
+import DropboxAudio from './DropboxAudio.jsx';
 import SongQueue from './SongQueue.jsx';
 
 class JukedropApp extends React.Component {
@@ -10,7 +12,7 @@ class JukedropApp extends React.Component {
     return (
       <div className="jukedropApp">
         <div className="jukedropAppTop">
-          <FileList />
+          <FileListContainer />
           <div className="jukedropAppRight">
             <img src="static/logo.png" />
             <DropboxAudio ref="dropboxAudio" />
