@@ -16,7 +16,7 @@ class PlaylistsListStore {
     this.items.push(item);
     this.save();
   }
-  onRemovePlaylist() {
+  onDeletePlaylist(item) {
     this.items = this.items.filter(i => i !== item);
     this.save();
   }

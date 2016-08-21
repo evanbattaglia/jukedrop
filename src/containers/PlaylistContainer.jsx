@@ -1,16 +1,18 @@
 import React from 'react';
 import AltContainer from 'alt-container';
-import Playlist from '../components/Playlist.jsx';
 
 import PlaylistStore from '../stores/PlaylistStore';
+
 import ControlActions from '../actions/ControlActions';
 import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 
-class PlaylistContainer extends React.Component {
+import Playlist from '../components/Playlist.jsx';
+
+export default class PlaylistContainer extends React.Component {
   actions() {
     return {
       onEnqueueItems: ControlActions.addToQueue,
-      onRemoveItem: CurrentPlaylistActions.removeItem,
+      onRemoveItem: CurrentPlaylistActions.removeFromPlaylist,
       onClickItem: ControlActions.loadSong,
     };
   }
@@ -23,5 +25,3 @@ class PlaylistContainer extends React.Component {
     );
   }
 }
-
-export default PlaylistContainer;

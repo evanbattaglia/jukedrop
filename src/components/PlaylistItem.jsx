@@ -5,7 +5,7 @@ class PlaylistItem extends React.Component {
   render() {
     return (
       <div>
-        <div className="iconRemove playlistItemRemove" onClick={this.props.onClickRemove}></div>
+        <div className="iconRemove playlistItemRemove" onClick={this.props.onRemove}></div>
         <a href="#" onClick={preventDefaultWrap(this.props.onClick)} title={this.props.path}>
           {basename(this.props.path)}
         </a>
