@@ -1,22 +1,30 @@
+import Dropbox from 'dropbox';
 import FileListActions from '../actions/FileListActions';
+import { tryNTimes } from '../util';
 
-// TODO: where is Dropbox coming from? should be imported.
 const dropbox = new Dropbox({ accessToken: JukedropConfig.accessToken });
+
 
 // to use something other than dropbox, just swap this outQ!
 export default {
+  /**
+   * @return { path, files }
+   *   path is the path that was inputted
+   *   files is an array of { type: 'folder', name: 'foo'} or { type: 'file', name: 'foo' }
+   */
   loadFolder: {
     remote(state, path) {
-      if (path === '/') path = ''; // Dropbox client requires '' for '/' (I think?)
+      // Dropbox client requires '' for '/'
+      const dropboxPath = path === '/' ? '' : path;
 
-      return dropbox.filesListFolder({ path }).then(response => {
-        const files = response.entries.map(entry => { return {
+      // For some reason, getting the root folder seems to fail every other time for me.
+      // So retry it if it fails.
+      const listThisFolder = () => dropbox.filesListFolder({ path });
+      return tryNTimes(listThisFolder, 'Dropbox list folder', 3).then(response => {
+        const files = response.entries.map(entry => ({
           name: entry.name,
           type: entry['.tag'],
-        }});
-        // TODO consider moving this up to store? probably not. but think about it.
-        if (path) files.unshift({ name: '..', type: 'folder' });
-
+        }));
         return {path, files};
       });
     },

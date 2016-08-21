@@ -6,6 +6,9 @@ import DropboxSource from '../sources/DropboxSource';
 import {dirname} from '../util';
 
 const STORAGE_KEY = 'jukedrop-fileliststore';
+const UP_DIRECTORY_ENTRY = '..';
+const ROOT_DIRECTORY = '/';
+const SEPARATOR = '/';
 
 class FileListStore {
   constructor() {
@@ -17,13 +20,15 @@ class FileListStore {
 
   onInit() {
     //if (this.currentDirectory) return false; // already initialized
-    const initialDir = LocalStorage.get(STORAGE_KEY, '/');
+    const initialDir = LocalStorage.get(STORAGE_KEY, ROOT_DIRECTORY);
     this.getInstance().loadFolder(initialDir);
   }
 
   onChangeFolder(name) {
     if (!this.getInstance().isLoading()) {
-      const path = name === '..' ? dirname(this.currentDirectory) : this.currentDirectory + '/' + name;
+      const path = name === UP_DIRECTORY_ENTRY ?
+        dirname(this.currentDirectory)
+        : this.currentDirectory + SEPARATOR + name;
       this.getInstance().loadFolder(path);
     }
     return false;
@@ -34,15 +39,13 @@ class FileListStore {
     this.currentDirectory = state.path;
     LocalStorage.set(STORAGE_KEY, this.currentDirectory);
     this.files = state.files;
+    // Add special ".."
+    if (state.path !== ROOT_DIRECTORY) {
+      this.files = [{ name: UP_DIRECTORY_ENTRY, type: 'folder' }].concat(this.files);
+    }
     return true;
   }
-
-
-
 }
 
-const store = alt.createStore(FileListStore, 'FileListStore');
-//store.loadFolder(LocalStorage.get(STORAGE_KEY, '/'));
-// TODO: not sure this is right, but seems like the best place to initialize data.
-export default store;
+export default alt.createStore(FileListStore, 'FileListStore');
 
