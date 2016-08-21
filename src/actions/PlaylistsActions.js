@@ -1,34 +1,9 @@
-import ActionConstants from '../constants/ActionConstants';
-import Dispatcher from '../Dispatcher';
+import alt from '../alt';
 
-export default {
-  // TODO: dry up
-
-  /**
-   * @param {string} name
-   */
-  addPlaylist(name) {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.PLAYLISTS_ADD,
-      name,
-    });
-  },
-
-  /**
-   * @param {string} name
-   */
-  deletePlaylist(name) {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.PLAYLISTS_DELETE,
-      name,
-    });
-  },
-
-  choosePlaylist(name) {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.PLAYLISTS_CHOOSE,
-      name,
-    });
+class PlaylistsActions {
+  constructor() {
+    this.generateActions('addPlaylist', 'deletePlaylist', 'choosePlaylist');
   }
+}
 
-};
+export default alt.createActions(PlaylistsActions);

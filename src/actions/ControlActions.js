@@ -1,31 +1,14 @@
-import ActionConstants from '../constants/ActionConstants';
-import Dispatcher from '../Dispatcher';
+import alt from '../alt';
 
-export default {
-  /**
-   * @param {string} path
-   */
-  loadSong(path) {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.CONTROL_LOAD_SONG,
-      path: path,
-    });
-  },
-
-  /**
-   * @param {string} path
-   */
-  addToQueue(paths) {
-    if (!Array.isArray(paths)) paths = [paths];
-    Dispatcher.dispatch({
-      actionType: ActionConstants.CONTROL_ADD_TO_QUEUE,
-      paths,
-    });
-  },
-
-  next() {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.CONTROL_NEXT,
-    })
+class ControlActions {
+  constructor() {
+    this.generateActions('loadSong', 'next');
   }
-};
+
+  // Accepts one path or an array of paths
+  addToQueue(paths) {
+    return Array.isArray(paths) ? paths : [paths];
+  }
+}
+
+export default alt.createActions(ControlActions);

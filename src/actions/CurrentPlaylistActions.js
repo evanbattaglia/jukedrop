@@ -1,25 +1,9 @@
-import ActionConstants from '../constants/ActionConstants';
-import Dispatcher from '../Dispatcher';
+import alt from '../alt';
 
-export default {
-  /**
-   * @param {string} path
-   */
-  addToPlaylist(path) {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.CURRENT_PLAYLIST_ADD_ITEM,
-      path: path,
-    });
-  },
+class CurrentPlaylistActions {
+  constructor() {
+    this.generateActions('addToPlaylist', 'removeFromPlaylist');
+  }
+}
 
-  /**
-   * @param {string} path
-   */
-  removeFromPlaylist(path) {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.CURRENT_PLAYLIST_REMOVE_ITEM,
-      path: path,
-    });
-  },
-
-};
+export default alt.createActions(CurrentPlaylistActions);

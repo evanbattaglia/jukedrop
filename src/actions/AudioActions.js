@@ -1,13 +1,9 @@
-import ActionConstants from '../constants/ActionConstants';
-import Dispatcher from '../Dispatcher';
+import alt from '../alt';
 
-export default {
-  /**
-   * trigger when the playing comes to an end.
-   */
-  ended() {
-    Dispatcher.dispatch({
-      actionType: ActionConstants.AUDIO_ENDED,
-    });
+class AudioActions {
+  constructor() {
+    this.generateActions('ended');
   }
-};
+}
+
+export default alt.createActions(AudioActions);
