@@ -16,9 +16,10 @@ class SongQueue extends React.Component {
   }
 
   componentDidMount() {
-    PlayerControllerStore.addQueueChangeListener(() => {
-      this.setState({ queue: PlayerControllerStore.getQueue() });
-    });
+    // TODO this
+    //PlayerControllerStore.addQueueChangeListener(() => {
+    //  this.setState({ queue: PlayerControllerStore.getQueue() });
+    //});
   }
 
   render() {

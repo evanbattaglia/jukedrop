@@ -6,18 +6,18 @@ import PlaylistsActions from '../actions/PlaylistsActions';
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.getStateFromStore();
+    this.state = PlaylistsListStore.getState();
     this.handleAddClick = this.handleAddClick.bind(this);
     this.updateStateFromStore = this.updateStateFromStore.bind(this);
   }
 
   componentDidMount() {
-    PlaylistsListStore.addChangeListener(this.updateStateFromStore);
+    PlaylistsListStore.listen(this.updateStateFromStore); // TODO unlisten
     this.updateStateFromStore(); // Initial update, in case it changed before we were listening
   }
 
   updateStateFromStore() {
-    this.setState(this.getStateFromStore());
+    this.setState(PlaylistsListStore.getState());
   }
 
   handleAddClick(e) {
@@ -25,11 +25,7 @@ class Playlist extends React.Component {
     PlaylistsActions.addPlaylist(prompt("Name of new playlist?"));
   }
 
-  // TODO: above is mostly boilerplate... and even of sort of getStateFromStore()
-
-  getStateFromStore() {
-    return {names: PlaylistsListStore.getItems()};
-  }
+  // TODO: above is mostly boilerplate...
 
   render() {
     return (
@@ -39,7 +35,7 @@ class Playlist extends React.Component {
           <a href="#" onClick={this.handleAddClick}>Add</a>
         </div>
         {
-          this.state.names.map(name =>
+          this.state.items.map(name =>
             <PlaylistsListItem
               key={name}
               name={name}

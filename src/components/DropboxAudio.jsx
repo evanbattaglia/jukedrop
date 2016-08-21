@@ -11,17 +11,23 @@ class DropboxAudio extends React.Component {
   }
 
   componentDidMount() {
-    PlayerControllerStore.addSongChangeListener(() => {
-      this.play(PlayerControllerStore.getCurrentSong());
-    });
+    PlayerControllerStore.listen(state => this.play(currentSong));
   }
 
   // TODO: this bit of status is anti-flux?
+  // TODO: yes, need to move status into a store
   setStatus(status) {
     this.setState({ status });
   }
 
   play(path) { // TODO: better way to do this with props?
+    if (path === currentSong) {
+      // don't redownload
+      // TODO: there must be a better way
+      this.refs.audio.replay();
+      return;
+    }
+
     this.setStatus('downloading');
     this.props.dropbox.filesDownload({path})
     .then(response => {
@@ -43,7 +49,7 @@ class DropboxAudio extends React.Component {
   render() {
     return (
       <div className="dropboxAudio">
-        <Audio data={this.state.data} />
+        <Audio ref="audio" data={this.state.data} />
         <div>Status: {this.state.status}</div>
         <div>{this.state.path}</div>
       </div>

@@ -7,11 +7,9 @@ class Audio extends React.Component {
     super(props)
   }
 
-  componentDidMount() {
-    PlayerControllerStore.addReplayListener(() => {
-      this.refs.audio.currentTime = 0;
-      this.refs.audio.play();
-    });
+  replay() {
+    this.refs.audio.currentTime = 0;
+    this.refs.audio.play();
   }
 
   componentDidUpdate(prevProps) {
