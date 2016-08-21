@@ -5,3 +5,11 @@ export function basename(path) {
 export function dirname(path) {
   return path.replace(/\/[^\/]*$/, '');
 }
+
+export function preventDefaultWrap(callback) {
+  // In the future this could take args
+  return function(e) {
+    e.preventDefault();
+    callback();
+  }
+}

@@ -1,39 +1,20 @@
 import React from 'react';
 import PlaylistItem from './PlaylistItem.jsx';
-import PlaylistStore from '../stores/PlaylistStore';
-import ControlActions from '../actions/ControlActions';
 
 class Playlist extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = PlaylistStore.getState();
-    // TODO: I think altContainer has better ways of doing this.
-    this.handleClickEnqueueAll = this.handleClickEnqueueAll.bind(this);
-  }
-
-  handleClickEnqueueAll(e) {
-    e.preventDefault();
-    ControlActions.addToQueue(this.state.items);
-  }
-
-  componentDidMount() {
-    // TODO: I think altContainer has better ways of doing this.
-    PlaylistStore.listen(this.setState.bind(this)); // TODO unlisten
-    this.setState(PlaylistStore.getState());
-    // Initial update, in case it changed before we were listening
-    // TODO: is that really necessary? i don't see it in examples...
-  }
-
   render() {
     return (
       <div className="playlist">
-        <h2>Playlist: {this.state.playlistName || '[No playlist selected]' }</h2>
-        <a href="#" onClick={this.handleClickEnqueueAll}>(enqueue all)</a>
+        <h2>Playlist: {this.props.playlistName || '[No playlist selected]' }</h2>
+        <a href="#" onClick={() => this.props.onEnqueueItems(this.props.items)}>(enqueue all)</a>
         {
-          this.state.items.map(path =>
+          this.props.items.map(path =>
             <PlaylistItem
               key={path}
               path={path}
+              onRemove={() => this.props.onRemoveItem(path)}
+              onEnqueue={() => this.props.onEnqueueItems([path])}
+              onClick={() => this.props.onClickItem(path)}
             />
           )
         }

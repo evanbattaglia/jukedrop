@@ -1,38 +1,17 @@
 import React from 'react';
-import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
-import ControlActions from '../actions/ControlActions';
-import {basename} from '../util'
+import {basename, preventDefaultWrap} from '../util'
 
 class PlaylistItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClickItem = this.handleClickItem.bind(this);
-    this.handleClickRemove = this.handleClickRemove.bind(this);
-    this.handleClickQueue = this.handleClickQueue.bind(this);
-  }
-
-  handleClickItem(e) {
-    e.preventDefault();
-    ControlActions.loadSong(this.props.path);
-  }
-
-  handleClickQueue(e) {
-    e.preventDefault();
-    ControlActions.addToQueue(this.props.path);
-  }
-
-  handleClickRemove(e) {
-    CurrentPlaylistActions.removeFromPlaylist(this.props.path);
-  }
-
   render() {
     return (
       <div>
-        <div className="iconRemove playlistItemRemove" onClick={this.handleClickRemove}></div>
-        <a href="#" onClick={this.handleClickItem} title={this.props.path}>
+        <div className="iconRemove playlistItemRemove" onClick={this.props.onClickRemove}></div>
+        <a href="#" onClick={preventDefaultWrap(this.props.onClick)} title={this.props.path}>
           {basename(this.props.path)}
         </a>
-        <a href="#" onClick={this.handleClickQueue}>(queue)</a>
+        <a href="#" onClick={preventDefaultWrap(this.props.onEnqueue)}>
+          (queue)
+        </a>
       </div>
     );
   }
