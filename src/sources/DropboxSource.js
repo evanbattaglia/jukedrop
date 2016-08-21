@@ -1,6 +1,6 @@
 import Dropbox from 'dropbox';
 import FileListActions from '../actions/FileListActions';
-import { tryNTimes } from '../util';
+import { tryNTimes, ROOT_DIRECTORY } from '../util';
 
 const dropbox = new Dropbox({ accessToken: JukedropConfig.accessToken });
 
@@ -16,11 +16,11 @@ export default {
   loadFolder: {
     remote(state, path) {
       // Dropbox client requires '' for '/'
-      const dropboxPath = path === '/' ? '' : path;
+      const dropboxPath = path === ROOT_DIRECTORY ? '' : path;
 
       // For some reason, getting the root folder seems to fail every other time for me.
       // So retry it if it fails.
-      const listThisFolder = () => dropbox.filesListFolder({ path });
+      const listThisFolder = () => dropbox.filesListFolder({ path: dropboxPath });
       return tryNTimes(listThisFolder, 'Dropbox list folder', 3).then(response => {
         const files = response.entries.map(entry => ({
           name: entry.name,

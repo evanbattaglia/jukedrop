@@ -1,9 +1,15 @@
+export const ROOT_DIRECTORY = '/';
+
 export function basename(path) {
   return path.split('/').pop();
 }
 
+export function joinPaths(path, nextPath) {
+  return path.replace(/\/+$/, '') + '/' + nextPath;
+}
+
 export function dirname(path) {
-  return path.replace(/\/[^\/]*$/, '');
+  return path.replace(/\/[^\/]*$/, '') || ROOT_DIRECTORY;
 }
 
 export function preventDefaultWrap(callback) {

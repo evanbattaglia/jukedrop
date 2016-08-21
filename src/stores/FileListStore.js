@@ -3,11 +3,10 @@ import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import FileListActions from '../actions/FileListActions';
 import LocalStorage from '../sources/LocalStorage';
 import DropboxSource from '../sources/DropboxSource';
-import {dirname} from '../util';
+import {dirname, ROOT_DIRECTORY, joinPaths} from '../util';
 
 const STORAGE_KEY = 'jukedrop-fileliststore';
 const UP_DIRECTORY_ENTRY = '..';
-const ROOT_DIRECTORY = '/';
 const SEPARATOR = '/';
 
 class FileListStore {
@@ -28,7 +27,7 @@ class FileListStore {
     if (!this.getInstance().isLoading()) {
       const path = name === UP_DIRECTORY_ENTRY ?
         dirname(this.currentDirectory)
-        : this.currentDirectory + SEPARATOR + name;
+      : joinPaths(this.currentDirectory, name);
       this.getInstance().loadFolder(path);
     }
     return false;
