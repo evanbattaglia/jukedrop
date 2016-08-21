@@ -2,7 +2,7 @@ import alt from '../alt';
 
 class FileListActions {
   constructor() {
-    this.generateActions('folderChange', 'folderChangeDone', 'folderChangeError');
+    this.generateActions('init', 'changeFolder', 'folderChangeDone', 'folderChangeError');
   }
 }
 

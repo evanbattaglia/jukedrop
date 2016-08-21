@@ -9,7 +9,6 @@ export default {
     remote(state, path) {
       if (path === '/') path = ''; // Dropbox client requires '' for '/' (I think?)
 
-      console.log("fetchin path", path);
       return dropbox.filesListFolder({ path }).then(response => {
         const files = response.entries.map(entry => { return {
           name: entry.name,

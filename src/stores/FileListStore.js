@@ -3,6 +3,7 @@ import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import FileListActions from '../actions/FileListActions';
 import LocalStorage from '../sources/LocalStorage';
 import DropboxSource from '../sources/DropboxSource';
+import {dirname} from '../util';
 
 const STORAGE_KEY = 'jukedrop-fileliststore';
 
@@ -12,9 +13,12 @@ class FileListStore {
     this.files = [];
     this.registerAsync(DropboxSource);
     this.bindActions(FileListActions);
-    this.on('error', wtf => {
-      console.log("wtferr", wtf);
-    });
+  }
+
+  onInit() {
+    //if (this.currentDirectory) return false; // already initialized
+    const initialDir = LocalStorage.get(STORAGE_KEY, '/');
+    this.getInstance().loadFolder(initialDir);
   }
 
   onChangeFolder(name) {
@@ -27,12 +31,8 @@ class FileListStore {
   }
 
   onFolderChangeDone(state) {
-    console.log("folder change done!!!");
-    console.log(state);
     this.currentDirectory = state.path;
-    console.log("folder change done!!!iagain");
     LocalStorage.set(STORAGE_KEY, this.currentDirectory);
-    console.log("wtf moment");
     this.files = state.files;
     return true;
   }
@@ -42,7 +42,6 @@ class FileListStore {
 }
 
 const store = alt.createStore(FileListStore, 'FileListStore');
-store.loadFolder("/bitcasa");
 //store.loadFolder(LocalStorage.get(STORAGE_KEY, '/'));
 // TODO: not sure this is right, but seems like the best place to initialize data.
 export default store;

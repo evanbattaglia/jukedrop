@@ -12,7 +12,7 @@ class Playlist extends React.Component {
             <PlaylistItem
               key={path}
               path={path}
-              onRemove={() => {console.log("woot!"); this.props.onRemoveItem(path)}}
+              onRemove={() => this.props.onRemoveItem(path)}
               onEnqueue={() => this.props.onEnqueueItems([path])}
               onClick={() => this.props.onClickItem(path)}
             />

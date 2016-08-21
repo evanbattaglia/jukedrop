@@ -1,8 +1,8 @@
 import React from 'react';
 import DropboxFolder from './DropboxFolder.jsx';
 import DropboxFile from './DropboxFile.jsx';
-import FileListStore from '../stores/FileListStore'
-//import FileListActions from '../actions/FileListActions'
+import FileListStore from '../stores/FileListStore';
+import FileListActions from '../actions/FileListActions';
 
 import {dirname} from '../util';
 
@@ -14,18 +14,13 @@ class DropboxFileList extends React.Component {
   }
 
   componentDidMount() {
-    console.log("did mount. setting state", FileListStore.getState());
+    FileListActions.init();
     FileListStore.listen(this.stateChanged.bind(this));
-                         //this.setState.bind(this));
     this.setState(FileListStore.getState());
   }
 
   stateChanged(state) {
-    console.log('setting the state woot');
-    console.log("state is", state);
-
     this.setState(state);
-    console.log("state is", state);
   }
 
   renderFile(file) {
@@ -37,8 +32,6 @@ class DropboxFileList extends React.Component {
   }
 
   render() {
-    throw new Error();
-
     // TODO: add a status/loading
     return (
       <div className="dropboxFileList">
