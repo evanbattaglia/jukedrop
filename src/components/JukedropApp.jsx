@@ -1,5 +1,5 @@
 import React from 'react';
-import DropboxFileList from './DropboxFileList.jsx';
+import FileList from './FileList.jsx';
 import DropboxAudio from './DropboxAudio.jsx';
 import PlaylistContainer from '../containers/PlaylistContainer.jsx';
 import PlaylistsList from './PlaylistsList.jsx';
@@ -10,7 +10,7 @@ class JukedropApp extends React.Component {
     return (
       <div className="jukedropApp">
         <div className="jukedropAppTop">
-          <DropboxFileList />
+          <FileList />
           <div className="jukedropAppRight">
             <img src="static/logo.png" />
             <DropboxAudio ref="dropboxAudio" />

@@ -2,7 +2,7 @@ import React from 'react';
 import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import ControlActions from '../actions/ControlActions';
 
-class DropboxFile extends React.Component {
+class File extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -37,4 +37,4 @@ class DropboxFile extends React.Component {
   }
 }
 
-export default DropboxFile;
+export default File;

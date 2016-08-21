@@ -1,6 +1,6 @@
 import React from 'react';
 
-class DropboxFolder extends React.Component {
+class Folder extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -21,4 +21,4 @@ class DropboxFolder extends React.Component {
   }
 }
 
-export default DropboxFolder;
+export default Folder;
