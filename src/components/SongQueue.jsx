@@ -1,5 +1,5 @@
 import React from 'react';
-import PlayerControllerStore from '../stores/PlayerControllerStore';
+import CurrentSongStore from '../stores/CurrentSongStore';
 import ControlActions from '../actions/ControlActions';
 import {basename} from '../util'
 
@@ -17,8 +17,8 @@ class SongQueue extends React.Component {
 
   componentDidMount() {
     // TODO this
-    //PlayerControllerStore.addQueueChangeListener(() => {
-    //  this.setState({ queue: PlayerControllerStore.getQueue() });
+    //CurrentSongStore.addQueueChangeListener(() => {
+    //  this.setState({ queue: CurrentSongStore.getQueue() });
     //});
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import AudioActions from '../actions/AudioActions';
-import PlayerControllerStore from '../stores/PlayerControllerStore'
+import CurrentSongStore from '../stores/CurrentSongStore'
 
 class Audio extends React.Component {
   constructor(props) {

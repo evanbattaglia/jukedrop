@@ -1,6 +1,6 @@
-import Dispatcher from '../Dispatcher';
-import ControlActions from '../constants/ControlActions';
-import AudioActions from '../constants/AudioActions';
+import alt from '../alt';
+import ControlActions from '../actions/ControlActions';
+import AudioActions from '../actions/AudioActions';
 
 // TODO: reenable queue stuff. put in different store. might need to use waitFor.
 //
@@ -15,19 +15,15 @@ import AudioActions from '../constants/AudioActions';
  *   AUDIO_ENDED (chooses another currently playing song and changes to it)
  */
 
-
-// event emitter
-const eventEmitter = new EventEmitter();
-
 class CurrentSongStore {
   constructor() {
-    this.addListeners({
+    this.currentSong = null;
+
+    this.bindListeners({
       loadSong: ControlActions.LOAD_SONG,
       //addToQueue: ControlActions.ADD_TO_QUEUE, //TODO
       handleAudioEnded: [ControlActions.NEXT, AudioActions.ENDED],
     });
-
-    this.currentSong = null;
   }
 
   loadSong(path) {
@@ -49,4 +45,4 @@ class CurrentSongStore {
   }
 }
 
-export default new alt.createStore(CurrentSongStore, 'CurrentSongStore');
+export default alt.createStore(CurrentSongStore, 'CurrentSongStore');

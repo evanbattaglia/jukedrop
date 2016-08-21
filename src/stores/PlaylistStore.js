@@ -7,24 +7,24 @@ class PlaylistStore {
     this.playlistName = null;
     this.items = [];
     this.bindListeners({
-      remove: CurrentPlaylistActions.REMOVE_ITEM,
-      add: CurrentPlaylistActions.ADD_ITEM,
-      onDeletePlaylist: PlaylistsActions.DELETE,
-      setPlaylist: PlaylistsActions.CHOOSE,
+      remove: CurrentPlaylistActions.REMOVE_FROM_PLAYLIST,
+      add: CurrentPlaylistActions.ADD_TO_PLAYLIST,
+      onDeletePlaylist: PlaylistsActions.DELETE_PLAYLIST,
+      setPlaylist: PlaylistsActions.CHOOSE_PLAYLIST,
     });
   }
 
   // Action handlers
 
   add(item) {
-    if (!this._playlistName) return false;
+    if (!this.playlistName) return false;
     if (~this.items.indexOf(item)) return false;
     this.items.push(item);
     this.save();
   }
 
   remove(item) {
-    if (!this._playlistName) return false;
+    if (!this.playlistName) return false;
     this.items = this.items.filter(i => i !== item);
     this.save();
   }
@@ -44,7 +44,7 @@ class PlaylistStore {
   }
 
   onDeletePlaylist(name) {
-    if (name === this._playlistName) {
+    if (name === this.playlistName) {
       this.playlistName = null;
       this.items = [];
     } else {
@@ -55,11 +55,11 @@ class PlaylistStore {
   // Helpers
 
   storageKey() {
-    return 'jukedrop-playlist-' + this._playlistName; // TODO: sanitize?
+    return 'jukedrop-playlist-' + this.playlistName; // TODO: sanitize?
   }
 
   save() {
-    localStorage.setItem(this.storageKey(), JSON.stringify(this._items));
+    localStorage.setItem(this.storageKey(), JSON.stringify(this.items));
   }
 }
 

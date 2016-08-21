@@ -4,12 +4,14 @@ class QueueStore {
   }
 
   addToQueue(paths) {
+    let added = false;
     for (const path of paths) {
       if (!~queue.indexOf(path)) {
         queue.push(path);
-        eventEmitter.emit(Events.QUEUE_CHANGE_EVENT);
+        added = true;
       }
     }
+    return added;
   }
 
 }

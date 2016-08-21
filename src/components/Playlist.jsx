@@ -8,7 +8,6 @@ class Playlist extends React.Component {
     super(props);
     this.state = PlaylistStore.getState();
     // TODO: I think altContainer has better ways of doing this.
-    this.updateStateFromStore = this.updateStateFromStore.bind(this);
     this.handleClickEnqueueAll = this.handleClickEnqueueAll.bind(this);
   }
 
@@ -18,7 +17,8 @@ class Playlist extends React.Component {
   }
 
   componentDidMount() {
-    PlaylistStore.listen(this.updateStateFromStore); // TODO unlisten
+    // TODO: I think altContainer has better ways of doing this.
+    PlaylistStore.listen(this.setState.bind(this)); // TODO unlisten
     this.setState(PlaylistStore.getState());
     // Initial update, in case it changed before we were listening
     // TODO: is that really necessary? i don't see it in examples...

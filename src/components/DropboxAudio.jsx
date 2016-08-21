@@ -1,7 +1,7 @@
 import React from 'react';
 import Audio from './Audio.jsx';
 
-import PlayerControllerStore from '../stores/PlayerControllerStore';
+import CurrentSongStore from '../stores/CurrentSongStore';
 
 class DropboxAudio extends React.Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class DropboxAudio extends React.Component {
   }
 
   componentDidMount() {
-    PlayerControllerStore.listen(state => this.play(currentSong));
+    CurrentSongStore.listen(state => this.play(state.currentSong));
   }
 
   // TODO: this bit of status is anti-flux?
@@ -21,7 +21,7 @@ class DropboxAudio extends React.Component {
   }
 
   play(path) { // TODO: better way to do this with props?
-    if (path === currentSong) {
+    if (path === this.state.path) {
       // don't redownload
       // TODO: there must be a better way
       this.refs.audio.replay();
