@@ -1,5 +1,6 @@
 import alt from '../alt';
 import ControlActions from '../actions/ControlActions';
+import SongQueueActions from '../actions/SongQueueActions';
 import LocalStorage from '../sources/LocalStorage';
 
 const STORAGE_KEY =  'jukedrop-songqueue';
@@ -8,9 +9,14 @@ class SongQueueStore {
   constructor() {
     this.queue = LocalStorage.get(STORAGE_KEY, []);
     this.bindListeners({
-      addToQueue: ControlActions.ADD_TO_QUEUE,
+      addToQueue: SongQueueActions.ADD_TO_QUEUE,
+      removeFromQueue: SongQueueActions.REMOVE_FROM_QUEUE,
       pop: ControlActions.NEXT_FROM_QUEUE,
     });
+  }
+
+  removeFromQueue(path) {
+    this.queue = this.queue.filter(p => p !== path);
   }
 
   addToQueue(paths) {
