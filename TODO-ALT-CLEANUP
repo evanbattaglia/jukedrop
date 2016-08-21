@@ -2,3 +2,4 @@ altcontainer
 grep TODOs
 state form music browser should be in a store, and saved
   (^ that kind of state should be saved with alt snapshotting)
+required properties everywhere.
