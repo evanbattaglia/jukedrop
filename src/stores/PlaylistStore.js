@@ -3,10 +3,10 @@ import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
 import PlaylistsActions from '../actions/PlaylistsActions';
 import LocalStorage from '../sources/LocalStorage';
 
+const CURRENT_PLAYLIST_STORAGE_KEY = 'jukedrop-current-playlist';
+
 class PlaylistStore {
   constructor() {
-    this.playlistName = null;
-    this.items = [];
     this.bindListeners({
       remove: CurrentPlaylistActions.REMOVE_FROM_PLAYLIST,
       removeAll: CurrentPlaylistActions.REMOVE_ALL,
@@ -14,6 +14,7 @@ class PlaylistStore {
       onDeletePlaylist: PlaylistsActions.DELETE_PLAYLIST,
       setPlaylist: PlaylistsActions.CHOOSE_PLAYLIST,
     });
+    this.setPlaylist(LocalStorage.get(CURRENT_PLAYLIST_STORAGE_KEY));
   }
 
   // Action handlers
@@ -43,14 +44,20 @@ class PlaylistStore {
 
   setPlaylist(name) {
     this.playlistName = name;
-    // TODO: can get rid of this filter soon I think. was clearing out some bad data
-    this.items = LocalStorage.get(this.storageKey(), []).filter(item => typeof(item) === "string");
+    // TODO: replace with alt snapshotting
+    LocalStorage.set(CURRENT_PLAYLIST_STORAGE_KEY, name);
+    if (name) {
+      // TODO: can get rid of this filter soon I think. was clearing out some bad data
+      this.items = LocalStorage.get(this.storageKey(), []).filter(item => typeof(item) === "string");
+    } else {
+      this.items = [];
+    }
   }
 
   onDeletePlaylist(name) {
     if (name === this.playlistName) {
-      this.playlistName = null;
-      this.items = [];
+      LocalStorage.remove(this.storageKey());
+      this.setPlaylist(null);
     } else {
       return false; // nothing changed
     }

@@ -12,4 +12,8 @@ function set(key, val) {
   localStorage.setItem(key, JSON.stringify(val));
 }
 
-export default { get, set };
+function remove(key) {
+  localStorage.removeItem(key);
+}
+
+export default { get, set, remove };
