@@ -11,8 +11,13 @@ class SongQueueStore {
     this.bindListeners({
       addToQueue: SongQueueActions.ADD_TO_QUEUE,
       removeFromQueue: SongQueueActions.REMOVE_FROM_QUEUE,
+      removeAll: SongQueueActions.REMOVE_ALL,
       pop: ControlActions.NEXT_FROM_QUEUE,
     });
+  }
+
+  removeAll(path) {
+    this.items = [];
   }
 
   removeFromQueue(path) {

@@ -11,7 +11,7 @@ class PlaylistsListStore {
     this.items = LocalStorage.get(STORAGE_KEY, []);
   }
 
-  onAddPlaylist() {
+  onAddPlaylist(item) {
     if (~this.items.indexOf(item)) return false;
     this.items.push(item);
     this.save();

@@ -2,7 +2,7 @@ import alt from '../alt';
 
 class SongQueueActions {
   constructor() {
-    this.generateActions('removeFromQueue');
+    this.generateActions('removeFromQueue', 'removeAll');
   }
 
   // Accepts one path or an array of paths

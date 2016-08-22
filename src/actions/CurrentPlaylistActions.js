@@ -2,7 +2,10 @@ import alt from '../alt';
 
 class CurrentPlaylistActions {
   constructor() {
-    this.generateActions('addToPlaylist', 'removeFromPlaylist');
+    this.generateActions('removeFromPlaylist', 'removeAll');
+  }
+  addToPlaylist(items) {
+    return Array.isArray(items) ? items : [items];
   }
 }
 
