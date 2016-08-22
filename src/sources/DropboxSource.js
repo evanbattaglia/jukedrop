@@ -1,5 +1,6 @@
 import Dropbox from 'dropbox';
 import FileListActions from '../actions/FileListActions';
+import CurrentSongActions from '../actions/CurrentSongActions';
 import { tryNTimes, ROOT_DIRECTORY } from '../util';
 
 const dropbox = new Dropbox({ accessToken: JukedropConfig.accessToken });
@@ -35,20 +36,22 @@ export default {
 
   // TODO alt-ize. probably have to move to different source because its connected
   // with different store.
-  filesDownload: {
-    remote(state) {
-      const path = state.currentSong;
+  downloadSong: {
+    remote(state, path) {
       return dropbox.filesDownload({path}).then(response => {
         const type = path.match(/\.ogg$/i) ? 'audio/ogg' : 'audio/mpeg'; // TOFIX when dropbox API improves
         const blob = response.fileBlob.slice(0, response.fileBlob.size, type);
         const reader = new window.FileReader();
         reader.readAsDataURL(blob);
-        return new Promise(resolve => reader.onloadend = () => resolve(reader.result, type));
+        return new Promise(resolve => reader.onloadend = () => resolve({ data: reader.result, type, path}));
       }).catch(error => {
         console.log("error: ", error);
         throw error;
       });
-    }
+    },
+
+    success: CurrentSongActions.downloadSongSuccess,
+    error: CurrentSongActions.downloadSongError,
   }
 
 
