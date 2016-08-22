@@ -1,23 +1,36 @@
 import React from 'react';
-import PlaylistItem from './PlaylistItem.jsx';
+import AltContainer from 'alt-container';
+
+import PlaylistStore from '../stores/PlaylistStore';
+
+import SongQueueActions from '../actions/SongQueueActions';
+import ControlActions from '../actions/ControlActions';
+import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
+
+import GenericPlaylist from './GenericPlaylist.jsx';
+
+class PlaylistTitle extends React.Component {
+  render() {
+    return <h2>Playlist: {this.props.playlistName || '[No playlist selected]' }</h2>;
+  }
+}
 
 class Playlist extends React.Component {
+  actions() {
+    return {
+      onEnqueueItems: SongQueueActions.addToQueue,
+      onRemoveItem: CurrentPlaylistActions.removeFromPlaylist,
+      onClickItem: ControlActions.loadSong,
+    };
+  }
+
   render() {
     return (
       <div className="playlist">
-        <h2>Playlist: {this.props.playlistName || '[No playlist selected]' }</h2>
-        <a href="#" onClick={() => this.props.onEnqueueItems(this.props.items)}>(enqueue all)</a>
-        {
-          this.props.items.map(path =>
-            <PlaylistItem
-              key={path}
-              path={path}
-              onRemove={() => this.props.onRemoveItem(path)}
-              onEnqueue={() => this.props.onEnqueueItems([path])}
-              onClick={() => this.props.onClickItem(path)}
-            />
-          )
-        }
+        <AltContainer store={PlaylistStore} actions={this.actions}>
+          <PlaylistTitle />
+          <GenericPlaylist />
+        </AltContainer>
       </div>
     );
   }

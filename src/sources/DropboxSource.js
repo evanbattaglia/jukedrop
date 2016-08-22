@@ -37,13 +37,16 @@ export default {
   // with different store.
   filesDownload: {
     remote(state) {
-      return dropbox.filesDownload({path: state.currentSong}).then(response => {
-        this.setStatus('converting');
+      const path = state.currentSong;
+      return dropbox.filesDownload({path}).then(response => {
         const type = path.match(/\.ogg$/i) ? 'audio/ogg' : 'audio/mpeg'; // TOFIX when dropbox API improves
-        const blob = new Blob([response], {type}) // force content-type
+        const blob = response.fileBlob.slice(0, response.fileBlob.size, type);
         const reader = new window.FileReader();
         reader.readAsDataURL(blob);
         return new Promise(resolve => reader.onloadend = () => resolve(reader.result, type));
+      }).catch(error => {
+        console.log("error: ", error);
+        throw error;
       });
     }
   }

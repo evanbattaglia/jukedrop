@@ -1,42 +1,36 @@
 import React from 'react';
+import AltContainer from 'alt-container';
+
 import SongQueueStore from '../stores/SongQueueStore';
+
+import ControlActions from '../actions/ControlActions';
+import SongQueueActions from '../actions/SongQueueActions';
 import ControlMetaActions from '../actions/ControlMetaActions';
-import {basename} from '../util'
 
-class SongQueue extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = SongQueueStore.getState(); // TODO simplifiy with AltContainer
-    this.handleClickNext = this.handleClickNext.bind(this); // TODO simplify with AltContainer
-    // In future we will have an action that plays an item from the queue...
-  }
+import { preventDefaultWrap } from '../util';
 
-  handleClickNext(e) {
-    e.preventDefault();
-    ControlMetaActions.next();
-  }
+import GenericPlaylist from './GenericPlaylist.jsx';
 
-  componentDidMount() {
-    // TODO simplify with AltContainer
-    SongQueueStore.listen(this.setState.bind(this));
+export default class SongQueueContainer extends React.Component {
+  actions() {
+    return {
+      onRemoveItem: SongQueueActions.removeFromQueue,
+      onClickItem: ControlActions.loadSong,
+    };
   }
 
   render() {
     return (
-      <div className="songQueue">
+      <div>
         <h2>
-          Song Queue
-          &nbsp;
-          <a href="#" onClick={this.handleClickNext}>&gt;&gt;</a>
+          Song queue
+          {' '}
+          <a href="#" onClick={preventDefaultWrap(ControlMetaActions.next)}>&gt;&gt;</a>
         </h2>
-        {
-          this.state.queue.map(path =>
-            <div key={path}>{basename(path)}</div>
-          )
-        }
+        <AltContainer store={SongQueueStore} actions={this.actions}>
+          <GenericPlaylist />
+        </AltContainer>
       </div>
     );
   }
 }
-
-export default SongQueue;

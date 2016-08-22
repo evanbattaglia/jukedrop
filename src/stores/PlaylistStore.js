@@ -32,7 +32,8 @@ class PlaylistStore {
 
   setPlaylist(name) {
     this.playlistName = name;
-    this.items = LocalStorage.get(this.storageKey(), []);
+    // TODO: can get rid of this filter soon I think. was clearing out some bad data
+    this.items = LocalStorage.get(this.storageKey(), []).filter(item => typeof(item) === "string");
   }
 
   onDeletePlaylist(name) {

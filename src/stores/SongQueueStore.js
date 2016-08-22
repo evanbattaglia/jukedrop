@@ -7,7 +7,7 @@ const STORAGE_KEY =  'jukedrop-songqueue';
 
 class SongQueueStore {
   constructor() {
-    this.queue = LocalStorage.get(STORAGE_KEY, []);
+    this.items = LocalStorage.get(STORAGE_KEY, []);
     this.bindListeners({
       addToQueue: SongQueueActions.ADD_TO_QUEUE,
       removeFromQueue: SongQueueActions.REMOVE_FROM_QUEUE,
@@ -16,14 +16,14 @@ class SongQueueStore {
   }
 
   removeFromQueue(path) {
-    this.queue = this.queue.filter(p => p !== path);
+    this.items = this.items.filter(p => p !== path);
   }
 
   addToQueue(paths) {
     let added = false;
     for (const path of paths) {
-      if (!~this.queue.indexOf(path)) {
-        this.queue.push(path);
+      if (!~this.items.indexOf(path)) {
+        this.items.push(path);
         added = true;
       }
     }
@@ -32,13 +32,13 @@ class SongQueueStore {
   }
 
   pop() {
-    this.justQueuedSong = this.queue.shift();
+    this.justQueuedSong = this.items.shift();
     this.save();
   }
 
   // TODO: in future might be able to make this part of global snapshot...
   save() {
-    LocalStorage.set(STORAGE_KEY, this.queue);
+    LocalStorage.set(STORAGE_KEY, this.items);
   }
 
   // TODO yuck. can't find another way to do this --
@@ -50,7 +50,7 @@ class SongQueueStore {
   }
 
   static isEmpty() {
-    return !this.state.queue.length;
+    return !this.state.items.length;
   }
 }
 

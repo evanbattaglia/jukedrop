@@ -1,6 +1,8 @@
 import React from 'react';
 import Audio from './Audio.jsx';
 
+import DropboxSource from '../sources/DropboxSource'
+
 import CurrentSongStore from '../stores/CurrentSongStore';
 
 class DropboxAudio extends React.Component {
@@ -32,7 +34,7 @@ class DropboxAudio extends React.Component {
 
     this.setStatus('downloading');
     // TODO altize, using source success/error. should be easy now
-    Dropbox.filesDownload.remote({ currentSong: path })
+    DropboxSource.filesDownload.remote({ currentSong: path })
     .then((data, type) => {
       this.setState({status: 'loaded', data, type, path});
     })

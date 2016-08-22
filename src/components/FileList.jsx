@@ -16,7 +16,7 @@ class FileList extends React.Component {
           key={file.name}
           onClick={() => this.props.onClickFile(path)}
           onClickEnqueue={() => this.props.onEnqueueFile(path)}
-          onEnqueue={() => this.props.onEnqueueFile(path)}
+          onClickAdd={() => this.props.onAddFile(path)}
           />
       );
     }

@@ -2,6 +2,14 @@ import React from 'react';
 import {basename, preventDefaultWrap} from '../util'
 
 class PlaylistItem extends React.Component {
+  renderEnqueue() {
+    if (this.props.onEnqueue) return (
+      <a href="#" onClick={preventDefaultWrap(this.props.onEnqueue)}>
+        (queue)
+      </a>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -9,9 +17,7 @@ class PlaylistItem extends React.Component {
         <a href="#" onClick={preventDefaultWrap(this.props.onClick)} title={this.props.path}>
           {basename(this.props.path)}
         </a>
-        <a href="#" onClick={preventDefaultWrap(this.props.onEnqueue)}>
-          (queue)
-        </a>
+        {this.renderEnqueue()}
       </div>
     );
   }

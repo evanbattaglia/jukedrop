@@ -2,11 +2,11 @@ import React from 'react';
 
 import FileListContainer from '../containers/FileListContainer.jsx';
 import PlaylistContainer from '../containers/PlaylistContainer.jsx';
-import SongQueueContainer from '../containers/PlaylistContainer.jsx';
 
 import PlaylistsList from './PlaylistsList.jsx';
 import DropboxAudio from './DropboxAudio.jsx';
 import SongQueue from './SongQueue.jsx';
+import Playlist from './Playlist.jsx';
 
 class JukedropApp extends React.Component {
   render() {
@@ -17,9 +17,9 @@ class JukedropApp extends React.Component {
           <div className="jukedropAppRight">
             <img src="static/logo.png" />
             <DropboxAudio ref="dropboxAudio" />
-            <SongQueueContainer />
+            <SongQueue />
             <PlaylistsList />
-            <PlaylistContainer />
+            <Playlist />
           </div>
         </div>
       </div>
