@@ -9,6 +9,9 @@ function get(key, defaultVal) {
 }
 
 function set(key, val) {
+  // Don't write the string "undefined" -- not JSON parseable
+  if (typeof val === 'undefined') val = null;
+
   localStorage.setItem(key, JSON.stringify(val));
 }
 

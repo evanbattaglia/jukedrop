@@ -12,40 +12,30 @@ import { preventDefaultWrap } from '../util';
 
 import GenericPlaylist from './GenericPlaylist.jsx';
 
-class SongQueueHeader extends React.Component {
-  render() {
-    return (
-      <div>
-        <h2>
-          Song queue
-          {' '}
-          <a href="#" onClick={preventDefaultWrap(this.props.onNext)}>&gt;&gt;</a>
-        </h2>
-        <a href="#" onClick={preventDefaultWrap(() => this.props.onAddItem(this.props.items))}>Add all to playlist</a>
-      </div>
-    );
-  }
-}
+const SongQueueHeader = ({ onNext, onAddItem, items }) => (
+  <div>
+    <h2>
+      Song queue
+      {' '}
+      <a href="#" onClick={preventDefaultWrap(onNext)}>&gt;&gt;</a>
+    </h2>
+    <a href="#" onClick={preventDefaultWrap(() => onAddItem(items))}>Add all to playlist</a>
+  </div>
+);
 
-export default class SongQueueContainer extends React.Component {
-  actions() {
-    return {
+const SongQueueContainer = () => (
+  <div>
+    <AltContainer store={SongQueueStore} actions={() => ({
       onRemoveItem: SongQueueActions.removeFromQueue,
       onRemoveAll: SongQueueActions.removeAll,
       onClickItem: ControlActions.loadSong,
       onAddItem: CurrentPlaylistActions.addToPlaylist,
       onNext: ControlMetaActions.next,
-    };
-  }
+    })}>
+      <SongQueueHeader />
+      <GenericPlaylist removeAllTitle="Clear" />
+    </AltContainer>
+  </div>
+);
 
-  render() {
-    return (
-      <div>
-        <AltContainer store={SongQueueStore} actions={this.actions}>
-          <SongQueueHeader />
-          <GenericPlaylist removeAllTitle="Clear" />
-        </AltContainer>
-      </div>
-    );
-  }
-}
+export default SongQueueContainer;
