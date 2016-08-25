@@ -7,15 +7,13 @@ import { ControlActions, SongQueueActions, ControlMetaActions, CurrentPlaylistAc
 import SongQueue from '../components/SongQueue.jsx'
 
 const SongQueueContainer = () => (
-  <AltContainer store={SongQueueStore} actions={() => ({
+  <AltContainer component={SongQueue} store={SongQueueStore} actions={() => ({
     onRemoveItem: SongQueueActions.removeFromQueue,
     onRemoveAll: SongQueueActions.removeAll,
     onClickItem: ControlActions.loadSong,
     onAddItem: CurrentPlaylistActions.addToPlaylist,
     onNext: ControlMetaActions.next,
-  })}>
-    <SongQueue />
-  </AltContainer>
+  })} />
 );
 
 export default SongQueueContainer;

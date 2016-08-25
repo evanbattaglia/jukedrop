@@ -12,8 +12,8 @@ const SongQueue = props => (
         {' '}
         <a href="#" onClick={preventDefaultWrap(props.onNext)}>&gt;&gt;</a>
       </h2>
-      <a href="#" onClick={callbackWithArg(props.onAddItems, props.items)}>Add all to playlist</a>
     </div>
+      <a href="#" onClick={callbackWithArg(props.onAddItem, props.items)}>Add all to playlist</a>
     <GenericPlaylist {...props} removeAllTitle="Clear" />
   </div>
 );
@@ -21,7 +21,7 @@ const SongQueue = props => (
 SongQueue.propTypes = {
   ...GenericPlaylist.propTypes,
   onNext: React.PropTypes.func.isRequired,
-  onAddItems: React.PropTypes.func.isRequired,
+  onAddItem: React.PropTypes.func.isRequired,
   items: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
 };
 
