@@ -1,28 +1,20 @@
 import React from 'react';
 import AltContainer from 'alt-container';
 
-import PlaylistStore from '../stores/PlaylistStore';
-
-import ControlActions from '../actions/ControlActions';
-import CurrentPlaylistActions from '../actions/CurrentPlaylistActions';
-import SongQueueActions from '../actions/SongQueueActions';
+import { PlaylistStore } from '../stores';
+import { ControlActions, CurrentPlaylistActions, SongQueueActions } from '../actions';
 
 import Playlist from '../components/Playlist.jsx';
 
-export default class PlaylistContainer extends React.Component {
-  actions() {
-    return {
-      onEnqueueItems: SongQueueActions.addToQueue,
-      onRemoveItem: CurrentPlaylistActions.removeFromPlaylist,
-      onClickItem: ControlActions.loadSong,
-    };
-  }
+const PlaylistContainer = () => (
+  <AltContainer store={PlaylistStore} actions={() => ({
+    onEnqueueItem: SongQueueActions.addToQueue,
+    onRemoveItem: CurrentPlaylistActions.removeFromPlaylist,
+    onRemoveAll: CurrentPlaylistActions.removeAll,
+    onClickItem: ControlActions.loadSong,
+  })}>
+    <Playlist />
+  </AltContainer>
+);
 
-  render() {
-    return (
-      <AltContainer store={PlaylistStore} actions={this.actions}>
-        <Playlist />
-      </AltContainer>
-    );
-  }
-}
+export default PlaylistContainer;

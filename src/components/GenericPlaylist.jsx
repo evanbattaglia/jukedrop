@@ -2,26 +2,31 @@ import React from 'react';
 import PlaylistItem from './PlaylistItem.jsx';
 import { preventDefaultWrap } from '../util';
 
-class GenericPlaylist extends React.Component {
-  render() {
-    return (
-      <div>
-        <a href="#" onClick={preventDefaultWrap(this.props.onRemoveAll)}>{this.props.removeAllTitle}</a>
-        {
-          this.props.items.map(path =>
-            <PlaylistItem
-              key={path}
-              path={path}
-              onRemove={() => this.props.onRemoveItem(path)}
-              onEnqueue={this.props.onEnqueueItem ? () => this.props.onEnqueueItem(path) : null}
-              onAdd={this.props.onAddItem ? () => this.props.onAddItem(path) : null}
-              onClick={() => this.props.onClickItem(path)}
-            />
-          )
-        }
-      </div>
-    );
-  }
+const GenericPlaylist = props => {
+  <div>
+    <a href="#" onClick={preventDefaultWrap(props.onRemoveAll)}>{props.removeAllTitle}</a>
+    {
+      props.items.map(path =>
+        <PlaylistItem
+          key={path}
+          path={path}
+          onRemove={() => props.onRemoveItem(path)}
+          onEnqueue={props.onEnqueueItem ? () => props.onEnqueueItem(path) : null}
+          onAdd={props.onAddItem ? () => props.onAddItem(path) : null}
+          onClick={() => props.onClickItem(path)}
+        />
+      )
+    }
+  </div>
 }
+GenericPlaylist.propTypes = {
+  onRemoveAll: React.PropTypes.func.isRequired,
+  onRemoveItem: React.PropTypes.func.isRequired,
+  onClickItem: React.PropTypes.func.isRequired,
+  onEnqueue: React.PropTypes.func,
+  onAdd: React.PropTypes.func,
+
+  items: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+};
 
 export default GenericPlaylist;

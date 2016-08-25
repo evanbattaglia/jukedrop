@@ -20,6 +20,15 @@ export function preventDefaultWrap(callback) {
   }
 }
 
+// Similar to preventDefaultWrap, but callback calls the function with an arg
+export function callbackWithArg(callback, arg) {
+  // In the future this could take args
+  return function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    callback(arg);
+  }
+}
+
 export function tryNTimes(promiseMaker, description, nTimes) {
   if (!nTimes || nTimes <= 1) {
     return promiseMaker();
