@@ -7,14 +7,16 @@ import { ControlActions, CurrentPlaylistActions, SongQueueActions } from '../act
 import Playlist from '../components/Playlist.jsx';
 
 const PlaylistContainer = () => (
-  <AltContainer store={PlaylistStore} actions={() => ({
-    onEnqueueItem: SongQueueActions.addToQueue,
-    onRemoveItem: CurrentPlaylistActions.removeFromPlaylist,
-    onRemoveAll: CurrentPlaylistActions.removeAll,
-    onClickItem: ControlActions.loadSong,
-  })}>
-    <Playlist />
-  </AltContainer>
+  <AltContainer
+    component={Playlist}
+    store={PlaylistStore}
+    actions={() => ({
+      onEnqueueItem: SongQueueActions.addToQueue,
+      onRemoveItem: CurrentPlaylistActions.removeFromPlaylist,
+      onRemoveAll: CurrentPlaylistActions.removeAll,
+      onClickItem: ControlActions.loadSong,
+    })}
+  />
 );
 
 export default PlaylistContainer;

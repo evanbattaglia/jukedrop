@@ -2,7 +2,7 @@ import React from 'react';
 import PlaylistItem from './PlaylistItem.jsx';
 import { preventDefaultWrap } from '../util';
 
-const GenericPlaylist = props => {
+const GenericPlaylist = props => (
   <div>
     <a href="#" onClick={preventDefaultWrap(props.onRemoveAll)}>{props.removeAllTitle}</a>
     {
@@ -18,7 +18,7 @@ const GenericPlaylist = props => {
       )
     }
   </div>
-}
+);
 GenericPlaylist.propTypes = {
   onRemoveAll: React.PropTypes.func.isRequired,
   onRemoveItem: React.PropTypes.func.isRequired,

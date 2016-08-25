@@ -13,15 +13,15 @@ import { callbackWithArg } from '../util';
 
 const Playlist = props => (
   <div className="playlist">
-    <h2>Playlist: {playlistName || '[No playlist selected]' }</h2>
+    <h2>Playlist: {props.playlistName || '[No playlist selected]' }</h2>
     {
       (props.items && props.items.length) ? (
-        <a href="#" onClick={callbackWithArg(props.onEnqueueItem, items)}>
+        <a href="#" onClick={callbackWithArg(props.onEnqueueItem, props.items)}>
           enqueue all
         </a>
       ) : ''
     }
-    <GenericPlaylist removeAllTitle="Remove All" />
+    <GenericPlaylist {...props} removeAllTitle="Remove All" />
   </div>
 );
 Playlist.propTypes = {
