@@ -1,6 +1,5 @@
 # Requirements
 - Nothing but a web browser.
-- Requires dropbox-sdk-js at evan/battaglia/download-hack, but this is, for now, compiled and included in this repo, so you don't have to worry about it.
 
 # Building
 ```
