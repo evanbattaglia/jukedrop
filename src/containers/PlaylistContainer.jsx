@@ -12,14 +12,14 @@ const PlaylistContainer = () => (
     store={PlaylistStore}
     actions={() => ({
       onEnqueueItem: SongQueueActions.addToQueue,
-      onRemoveItem: () => {
+      onRemoveItem: (event) => {
         if (prompt(`Do you really wish to delete this item from the playlist? Type y to confirm`) == 'y') {
-          CurrentPlaylistActions.removeFromPlaylist()
+          CurrentPlaylistActions.removeFromPlaylist(event);
         }
       },
       onRemoveAll: () => {
-        if (prompt(`Do you really wish to delete ALL item from the playlist? Type y to confirm`) == 'y') {
-          CurrentPlaylistActions.removeAll()
+        if (prompt(`Do you really wish to delete ALL items from the playlist? Type y to confirm`) == 'y') {
+          CurrentPlaylistActions.removeAll(event);
         }
       },
       onClickItem: ControlActions.loadSong,
