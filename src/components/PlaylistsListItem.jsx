@@ -14,7 +14,9 @@ class PlaylistsListItem extends React.Component {
   }
 
   handleClickRemove(e) {
-    PlaylistsActions.deletePlaylist(this.props.name);
+    if (prompt(`Do you really wish to delete playlist ${JSON.stringify(this.props.name)}? Type y to confirm`) == 'y') {
+      PlaylistsActions.deletePlaylist(this.props.name);
+    }
   }
 
   render() {
