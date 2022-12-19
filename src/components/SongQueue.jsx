@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { preventDefaultWrap, callbackWithArg } from '../util';
 
@@ -20,9 +21,9 @@ const SongQueue = props => (
 
 SongQueue.propTypes = {
   ...GenericPlaylist.propTypes,
-  onNext: React.PropTypes.func.isRequired,
-  onAddItem: React.PropTypes.func.isRequired,
-  items: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  onNext: PropTypes.func.isRequired,
+  onAddItem: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default SongQueue;

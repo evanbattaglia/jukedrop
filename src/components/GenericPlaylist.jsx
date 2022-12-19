@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PlaylistItem from './PlaylistItem.jsx';
 import { preventDefaultWrap } from '../util';
 
@@ -20,13 +21,13 @@ const GenericPlaylist = props => (
   </div>
 );
 GenericPlaylist.propTypes = {
-  onRemoveAll: React.PropTypes.func.isRequired,
-  onRemoveItem: React.PropTypes.func.isRequired,
-  onClickItem: React.PropTypes.func.isRequired,
-  onEnqueue: React.PropTypes.func,
-  onAdd: React.PropTypes.func,
+  onRemoveAll: PropTypes.func.isRequired,
+  onRemoveItem: PropTypes.func.isRequired,
+  onClickItem: PropTypes.func.isRequired,
+  onEnqueue: PropTypes.func,
+  onAdd: PropTypes.func,
 
-  items: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default GenericPlaylist;

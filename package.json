@@ -11,8 +11,9 @@
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-1": "^6.13.0",
     "dropbox": "^2.1",
-    "react": "15.3.0",
-    "react-dom": "15.3.0"
+    "prop-types": "^15.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "webpack": "1.13.1",

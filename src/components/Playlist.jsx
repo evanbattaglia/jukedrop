@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AltContainer from 'alt-container';
 
 import PlaylistStore from '../stores/PlaylistStore';
@@ -26,8 +27,8 @@ const Playlist = props => (
 );
 Playlist.propTypes = {
   ...GenericPlaylist.propTypes,
-  playlistName: React.PropTypes.string,
-  onEnqueueItem: React.PropTypes.func.isRequired,
+  playlistName: PropTypes.string,
+  onEnqueueItem: PropTypes.func.isRequired,
 };
 
 export default Playlist;

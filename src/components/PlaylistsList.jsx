@@ -2,6 +2,7 @@ import React from 'react';
 import PlaylistsListItem from './PlaylistsListItem.jsx';
 import PlaylistsListStore from '../stores/PlaylistsListStore';
 import PlaylistsActions from '../actions/PlaylistsActions';
+import Backup from './Backup.jsx';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class Playlist extends React.Component {
     return (
       <div className="playlistsList">
         <h2>All Playlists</h2>
+        <Backup />
         <div>
           <a href="#" onClick={this.handleAddClick}>Add</a>
         </div>
