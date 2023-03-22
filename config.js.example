@@ -1,8 +1,8 @@
 JukedropConfig = {
-  accessToken: 'get an authtoken from dropbox, add it here, and copy this file to authtoken.js',
+  accessToken: 'get an authtoken from dropbox, add it here, and copy this file dist/config.js',
 
   // OPTIONAL CONFIG
 
   // Paths other than the root directory (empty string) start with a slash (e.g., "/Music/My Favorite Artist")
-  homeDirectory: '',
+  homeDirectory: '/bitcasa/music/artists',
 };
