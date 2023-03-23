@@ -13,3 +13,9 @@ It's easy as 1-2-3.
 1. create an app & authtoken in dropbox.
 2. copy config.js.example to dist/config.js and add in your authtoken.
 3. then just go open index.html in a web browser (Chrome recommended)
+
+# Restore backups
+```
+backupJson={ /* paste in the backup json */}
+for (x in backupJson) { localStorage.setItem(x, backupJson[x]) }
+```
